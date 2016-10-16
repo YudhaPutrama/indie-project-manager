@@ -15,6 +15,15 @@ return array(
     |
     */
 
-    'driver' => 'gd'
+    'driver' => 'gd',
+
+    'dir'=> [
+        'projects'=> [
+            'photos' => '/uploads/projects/photos/',
+            'picture' => '/uploads/projects/pictures/'
+        ],
+
+        'avatar' => '/uploads/avatar/'
+    ]
 
 );

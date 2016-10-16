@@ -9,7 +9,7 @@ use App\Http\Requests;
 class WelcomeController extends Controller
 {
     public function index(){
-        return view('auth.login');
+        return redirect('login');
     }
 
 }

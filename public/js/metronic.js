@@ -11,13 +11,13 @@ var Metronic = function() {
 
     var resizeHandlers = [];
 
-    var assetsPath = '../../assets/';
+    var assetsPath = '/';
 
-    var globalImgPath = 'global/img/';
+    var globalImgPath = '/img/';
 
-    var globalPluginsPath = 'global/plugins/';
+    var globalPluginsPath = '/js';
 
-    var globalCssPath = 'global/css/';
+    var globalCssPath = '/css';
 
     // theme layout color set
 
@@ -205,6 +205,7 @@ var Metronic = function() {
             test.each(function() {
                 if ($(this).parents(".checker").size() === 0) {
                     $(this).show();
+
                     $(this).uniform();
                 }
             });
@@ -250,7 +251,7 @@ var Metronic = function() {
             return;
         }
         $('[data-toggle=confirmation]').confirmation({ container: 'body', btnOkClass: 'btn-xs btn-success', btnCancelClass: 'btn-xs btn-danger'});
-    }
+    };
     
     // Handles Bootstrap Accordions.
     var handleAccordions = function() {

@@ -6,10 +6,12 @@ var Profile = function() {
 
         //main function
         init: function() {
-        
-            Profile.initMiniCharts();
+            // Profile.initMiniCharts();
+            Profile.initFormListener();
         },
+        initFormListener: function () {
 
+        },
         initMiniCharts: function() {
 
             // IE8 Fix: function.bind polyfill

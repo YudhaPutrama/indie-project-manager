@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use App\User;
+use App\Role;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -19,11 +21,23 @@ class FirstSetupTables extends Migration
             $table->string('email')->unique();
             $table->string('username',20)->unique();
             $table->string('password');
-            $table->integer('user_type');
 
             //userdata
-            $table->string('name');
-            $table->string('phone',15);
+            $table->string('fullname')->default('');
+            $table->string('nickname')->default('');
+            $table->string('phone')->default('');
+            $table->string('twitter')->default('');
+            $table->string('facebook')->default('');
+            $table->string('lineid')->default('');
+            $table->string('instagram')->default('');
+
+            $table->text('bio')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('avatar_mini')->nullable();
+            $table->string('title')->default('');
+            $table->string('institution')->default('');
+
+
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,7 +50,8 @@ class FirstSetupTables extends Migration
 
         Schema::create('projects', function (Blueprint $table){
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('created_by');
+            $table->string('project_picture');
             $table->string('title');
             $table->string('description');
             $table->date('start');
@@ -50,50 +65,69 @@ class FirstSetupTables extends Migration
             $table->increments('id');
             $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
-
+            $table->string('role');
             $table->timestamps();
         });
 
-        Schema::create('albums', function (Blueprint $table){
-            $table->increments('id');
-            $table->string('title');
-            $table->unsignedInteger('project_id');
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
+//        Schema::create('gallery', function (Blueprint $table){
+//            $table->increments('id');
+//            $table->string('title');
+//            $table->unsignedInteger('project_id');
+//
+//            $table->timestamps();
+//            $table->softDeletes();
+//        });
 
         Schema::create('photos', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('user_id'); //uploader id
-            $table->unsignedInteger('album_id'); //album id
+            $table->unsignedInteger('project_id'); //album id
             $table->string('title');
+            $table->string('location');
             $table->string('url');
-            $table->string('status');
+            $table->string('url_thumb');
+            $table->string('status')->default('uploaded'); //uploaded, reviewed, done
 
             $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::create('videos', function (Blueprint $table){
-            $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('album_id');
-            $table->string('title');
-            $table->string('url');
-
-            $table->timestamps();
-        });
+//        Schema::create('videos', function (Blueprint $table){
+//            $table->increments('id');
+//            $table->unsignedInteger('user_id');
+//            $table->unsignedInteger('album_id');
+//            $table->string('title');
+//            $table->string('url');
+//
+//            $table->timestamps();
+//        });
 
         Schema::create('comments', function (Blueprint $table){
             $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('photo_id');
             $table->text('body');
-            $table->unsignedInteger('target_id');
-            $table->string('target_type');
             $table->timestamps();
             $table->softDeletes();
         });
 
+//        title: 'Long Event',
+//                    start: new Date(y, m, d - 5),
+//                    end: new Date(y, m, d - 2),
+//                    backgroundColor: Metronic.getBrandColor('green')
+        Schema::create('schedules', function (Blueprint $table){
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('project_id');
+            $table->string('event');
+            $table->string('location');
+            $table->date('start');
+            $table->date('end');
+            $table->string('color');
+            $table->string('status'); // done, ongoing, pending
+
+            $table->timestamps();
+        });
 
     }
 
@@ -108,9 +142,10 @@ class FirstSetupTables extends Migration
         Schema::drop('password_resets');
         Schema::drop('projects');
         Schema::drop('project_members');
-        Schema::drop('albums');
+//        Schema::drop('albums');
         Schema::drop('photos');
-        Schema::drop('videos');
+//        Schema::drop('videos');
         Schema::drop('comments');
+        Schema::drop('schedules');
     }
 }

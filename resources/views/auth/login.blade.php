@@ -7,7 +7,7 @@
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
-    <title>Indie Project Manager | Login</title>
+    <title>{{ Config::get('app.name') }} | Login</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -46,8 +46,14 @@
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
     <form class="login-form" action="{{ url('/login') }}" method="post">
-        {{ csrf_field() }}
+
         <h3 class="form-title">Sign In</h3>
+        @if($errors->has('username')||$errors->has('password'))
+        <div class="alert alert-danger">
+            <button class="close" data-close="alert"></button>
+            <span>Invalid username or password<!doctype html></span>
+        </div>
+        @endif
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>
             <span>Enter any username and password. </span>
@@ -55,20 +61,21 @@
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9">Username</label>
-            <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
+            <input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder="Username" name="username" value="{{ old('username') }}" required/>
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
-            <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password"/>
+            <input class="form-control form-control-solid placeholder-no-fix" type="password" placeholder="Password" name="password" required/>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-success uppercase">Login</button>
             <label class="rememberme check">
                 <input type="checkbox" name="remember" value="1"/>Remember </label>
-            <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+            {{--<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>--}}
         </div>
     </form>
     <!-- END LOGIN FORM -->
+    {{--
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form class="forget-form" action="{{ url('/password/reset') }}" method="post">
         {{ csrf_field() }}
@@ -91,9 +98,10 @@
         </div>
     </form>
     <!-- END FORGOT PASSWORD FORM -->
+    --}}
 </div>
 <div class="copyright">
-    2016 © iProm. Indie Project Manager.
+    2016 © {{ Config::get('app.name') }}
 </div>
 <!-- END LOGIN -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
@@ -115,7 +123,6 @@
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="/js/metronic.js" type="text/javascript"></script>
 <script src="/js/layout.js" type="text/javascript"></script>
-<script src="/js/demo.js" type="text/javascript"></script>
 <script src="/js/pages/login.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
@@ -123,7 +130,6 @@
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Login.init();
-        Demo.init();
     });
 </script>
 <!-- END JAVASCRIPTS -->
