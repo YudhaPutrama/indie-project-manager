@@ -92,7 +92,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/project') }}">
+                <a href="{{ url('/projects') }}">
                     <i class="icon-briefcase"></i>
                     <span class="title">Projects</span>
                 </a>

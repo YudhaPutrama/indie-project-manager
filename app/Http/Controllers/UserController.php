@@ -18,6 +18,7 @@ class UserController extends Controller
     }
 
     public function showListUser(){
+        $users = User::all();
 
     }
 

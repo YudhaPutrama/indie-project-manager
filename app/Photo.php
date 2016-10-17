@@ -14,8 +14,21 @@ class Photo extends Model
         return $this->hasOne('App\User');
     }
 
-
     public function comments(){
         return $this->hasMany('App\Comment');
+    }
+
+    public function hasMember(User $user){
+        return !$this->project->members->where('id',$user->id)->isEmpty();
+    }
+
+    public function setReviewed(){
+        $this->status = 'reviewed';
+        $this->save();
+    }
+
+    public function setDone(){
+        $this->status = 'done';
+        $this->save();
     }
 }

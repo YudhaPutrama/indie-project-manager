@@ -17,25 +17,22 @@ Auth::routes();
 
 
 Route::group(['middleware'=>'auth'], function (){
+    //Route::get('test', function (){return json_encode(['hai']);});
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/profile', 'UserController@showProfile')->name('profile');
     Route::get('/profile/edit', 'UserController@showProfileEdit')->name('profile-edit');
     Route::post('/profile/edit', 'UserController@uploadAvatar');
     Route::get('/projects', 'ProjectController@showProject')->name('project');
-    Route::post('/projects', 'ProjectController@newProject');
-    Route::get('/projects/{id}', 'ProjectController@showProjectDetail')->name('project-detail');
-    Route::get('/projects/{id}/upload', 'ProjectController@showUpload')->name('project-upload');
-    Route::post('/projects/{id}/upload', 'ProjectController@uploadPhotos');
-    Route::get('/projects/{id}/{photo_id}', 'PhotoController@showPhoto')->name('photo');
-    Route::get('/schedule', 'ScheduleController@index');
-
-    Route::group(['middleware' => ['role:admin|staff']],function (){
-        Route::get('/user', 'UserController@index');
-    });
-
-    Route::group(['middleware' => ['role:client']],function (){
-//        Route::get('/schedule', 'ScheduleController@index');
-    });
+    Route::post('/projects', 'ProjectController@newProject')->name('project-add');
+    Route::get('/projects/{project}', 'ProjectController@showProjectDetail')->name('project-detail');
+    Route::get('/projects/{project}/upload', 'ProjectController@showUpload')->name('project-upload');
+    Route::post('/projects/{project}/upload', 'ProjectController@uploadPhotos');
+    Route::get('/projects/{project}/{photo}', 'PhotoController@showPhoto')->name('photo');
+    Route::post('/projects/{project}/{photo}/comment', 'PhotoController@postComment');
+    Route::get('/schedule', 'ScheduleController@listSchedule');
+    Route::get('/schedule/{project}', 'ScheduleController@showSchedule');
+    Route::get('/users', 'UserController@listUsers');
+    Route::get('/users/{user}', 'UserController@showUsers');
 });
 //Route::get('/home', 'HomeController@index');
 //

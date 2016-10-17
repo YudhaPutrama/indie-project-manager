@@ -75,7 +75,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    WELCOME
+                    WELCOMEwe
                 </div>
 
                 {{--<div class="links">--}}

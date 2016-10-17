@@ -54,12 +54,12 @@ class ProjectController extends Controller
     }
 
 
-    public function showProjectDetail($id){
+    public function showProjectDetail(Project $project){
         if (Auth::user()->hasRole('client')){
             return redirect('/projects')->with('error',"You does'nt have an access");
             //$project = Auth::user()->projects()->first();
         }
-        if (($project = Project::find($id))==null){
+        if (($project)==null){
             return redirect('/projects')->with('error',"Projects not found");
         }
         $data = [
@@ -70,11 +70,11 @@ class ProjectController extends Controller
         return view('project-detail',$data);
     }
 
-    public function showUpload($id){
+    public function showUpload(Project $project){
         return view('upload');
     }
 
-    public function uploadPhotos(Request $request, $id){
+    public function uploadPhotos(Request $request, Project $project){
         if ($request->hasFile('file')){
             $validator = Validator::make($request->all(), ['avatar'=>'image']);
             if ($validator->fails()){
@@ -82,8 +82,8 @@ class ProjectController extends Controller
             }
             $user = Auth::user();
             $file = $request->file('file');
-            $filename_full = $id.'_'.$user->id.'_'.time().'_full'.'.'.$file->getClientOriginalExtension();
-            $filename_icon = $id.'_'.$user->id.'_'.time().'_icon'.'.'.$file->getClientOriginalExtension();
+            $filename_full = $project->id.'_'.$user->id.'_'.time().'_full'.'.'.$file->getClientOriginalExtension();
+            $filename_icon = $project->id.'_'.$user->id.'_'.time().'_icon'.'.'.$file->getClientOriginalExtension();
 
             //save full size
             $image_full = Image::make($file)->save(public_path(Config::get('image.dir.projects.photos')).$filename_full);
@@ -101,8 +101,8 @@ class ProjectController extends Controller
             $photo->status = "uploaded";
 
 
-            if (Project::find($id)->photos()->save($photo)){
-                return $image_full;
+            if ($project->photos()->save($photo)){
+                //return $image_full;
                 return Response::json(['status'=>'success'],200);
             }
         }
