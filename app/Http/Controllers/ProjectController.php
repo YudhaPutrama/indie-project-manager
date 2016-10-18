@@ -19,13 +19,21 @@ class ProjectController extends Controller
      */
     private $user;
 
-    public function __construct()
-    {
-        $this->middleware('auth');
+    public function newProject(Request $request){
         $this->user = Auth::user();
+        $validator = Validator::make($request->all(),[
+            'name'=>'required',
+            'description'=>'required',
+            'picture'=>'image'
+        ]);
+        if ($validator->passes()){
+
+        }
+        return Response::json(['status'=>'error']);
     }
 
     public function listProject(){
+
         if (Auth::user()->hasRole('admin')){
             $projects = Project::with('members')->all();
         } else {
@@ -40,28 +48,27 @@ class ProjectController extends Controller
 
     public function showProject(){
         $user = Auth::user();
-        if (Auth::user()->hasRole('admin')||Auth::user()){
+        if (Auth::user()->hasRole('admin')){
             $projects = Project::all();
-            //return ['user'=>$user,'projects'=>$projects];
             return view('project-list',['user'=>$user,'projects'=>$projects]);
         } elseif (Auth::user()->hasRole('staff')) {
             $projects = Auth::user()->projects;
             return view('project-list',['user'=>$user,'projects'=>$projects]);
         } else {
             $project = Auth::user()->projects()->first();
+            if ($project==null){
+                $project = [];
+            }
             return view('project-detail',['user'=>$user, 'project'=>$project]);
         }
     }
 
 
     public function showProjectDetail(Project $project){
-        if (Auth::user()->hasRole('client')){
-            return redirect('/projects')->with('error',"You does'nt have an access");
-            //$project = Auth::user()->projects()->first();
-        }
-        if (($project)==null){
-            return redirect('/projects')->with('error',"Projects not found");
-        }
+//        if(Auth::user()->hasRole('client')){
+//            return redirect('/projects')->with('error',"You does'nt have an access");
+//        }
+        $this->authorize('view', $project);
         $data = [
             'user' => Auth::user(),
             'project' => $project
@@ -110,19 +117,6 @@ class ProjectController extends Controller
     }
 
     public function showMembers(){
-
     }
 
-    /**
-     * Create Icon From Original
-     */
-    public function icon( $photo, $filename )
-    {
-        $manager = new ImageManager();
-        $image = $manager->make( $photo )->resize(200, null, function ($constraint){
-            $constraint->aspectRatio();
-        })->save( Config::get('image.dir.projects.photos')  . $filename );
-
-        return $image;
-    }
 }

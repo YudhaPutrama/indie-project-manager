@@ -9,6 +9,8 @@ class Project extends Model
 
     protected $hidden = ['pivot'];
 
+    protected $fillable = ['name','description', 'picture'];
+
     public function creator(){
         return $this->belongsTo('App\User', 'created_by');
     }

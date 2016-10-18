@@ -38,10 +38,10 @@ class User extends Authenticatable
     }
 
 
-    public function save(array $options = [])
+    public function save(array $options = [], $role=3)
     {
         if (parent::save($options)){
-            $this->roles()->attach(3);
+            $this->roles()->attach($role);
             return true;
         }
         return false;

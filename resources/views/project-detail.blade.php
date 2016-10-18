@@ -55,6 +55,7 @@
         Project Detail<small></small>
     </h3>
     <!-- END PAGE HEADER-->
+    @if($project!=null)
     <div class="row">
     <div class="col-md-12">
         <!-- BEGIN PORTLET-->
@@ -388,4 +389,5 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection

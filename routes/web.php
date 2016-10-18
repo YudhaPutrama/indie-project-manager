@@ -17,11 +17,11 @@ Auth::routes();
 
 
 Route::group(['middleware'=>'auth'], function (){
-    //Route::get('test', function (){return json_encode(['hai']);});
+    Route::get('test', 'ProjectController@newProject');
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/profile', 'UserController@showProfile')->name('profile');
-    Route::get('/profile/edit', 'UserController@showProfileEdit')->name('profile-edit');
-    Route::post('/profile/edit', 'UserController@uploadAvatar');
+    //Route::get('/profile/edit', 'UserController@showProfileEdit')->name('profile-edit');
+    Route::post('/profile', 'UserController@updateProfile');
     Route::get('/projects', 'ProjectController@showProject')->name('project');
     Route::post('/projects', 'ProjectController@newProject')->name('project-add');
     Route::get('/projects/{project}', 'ProjectController@showProjectDetail')->name('project-detail');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Permission;
+use App\Project;
 use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Schema;
@@ -38,8 +39,25 @@ class FirstSetupData extends Migration
         $user->email = "admin@admin.com";
         $user->username = "admin";
         $user->password = bcrypt('admin12345');
-        $user->save();
-        $user->attachRole($admin);
+        $user->save([],1);
+        //$user->attachRole($admin);
+
+        $client1 = new User();
+        $client1->email = "user1@test.com";
+        $client1->username = "user1";
+        $client1->password = bcrypt('user12345');
+        $client1->save();
+//        $client1->attachRole($client);
+
+        $project = new Project();
+        $project->user_id = $user->id;
+        $project->name = "The Project";
+        $project->description = "About this project";
+        $project->save();
+
+        $user->projects()->attach($project->id);
+        $client1->projects()->attach($project->id);
+
 
     }
 

@@ -54,7 +54,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function uploadAvatar(Request $request){
+    public function updateProfile(Request $request){
 
         if ($request->hasFile('avatar')){
             $validator = Validator::make($request->all(), ['avatar' => 'image']);

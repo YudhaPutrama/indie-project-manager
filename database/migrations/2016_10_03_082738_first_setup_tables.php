@@ -50,10 +50,11 @@ class FirstSetupTables extends Migration
 
         Schema::create('projects', function (Blueprint $table){
             $table->increments('id');
-            $table->unsignedInteger('created_by');
-            $table->string('project_picture');
-            $table->string('title');
+            $table->unsignedInteger('user_id');
+            $table->string('name');
             $table->string('description');
+            $table->string('picture')->default('default.jpg');
+            $table->boolean('scheduleAccepted');
             $table->date('start');
             $table->date('deadline');
 
@@ -65,7 +66,6 @@ class FirstSetupTables extends Migration
             $table->increments('id');
             $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->string('role');
             $table->timestamps();
         });
 
@@ -129,6 +129,7 @@ class FirstSetupTables extends Migration
             $table->timestamps();
         });
 
+
 //        Schema::create('activities', function (Blueprint $table){
 //            $table->increments('id');
 //            $table->unsignedInteger('user_id');
@@ -148,9 +149,7 @@ class FirstSetupTables extends Migration
         Schema::drop('password_resets');
         Schema::drop('projects');
         Schema::drop('project_members');
-//        Schema::drop('albums');
         Schema::drop('photos');
-//        Schema::drop('videos');
         Schema::drop('comments');
         Schema::drop('schedules');
     }

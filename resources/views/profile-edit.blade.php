@@ -20,12 +20,6 @@
     <!-- END PAGE LEVEL SCRIPTS -->
     <script>
         jQuery(document).ready(function() {
-
-            // initiate layout and plugins
-//            Metronic.init(); // init metronic core components
-//            Layout.init(); // init current layout
-//            Demo.init(); // init demo features
-//            Profile.init(); // init page demo
             $("form#uploadAvatar").submit(function() {
 
                 var formData = new FormData($(this)[0]);
@@ -108,11 +102,6 @@
                 });
                 return false;
             });
-
-
-//                $.post($(this).attr("action"), formData, function(data) {
-//                    alert(data);
-//                });
 
             toastr.options = {
                 "closeButton": true,

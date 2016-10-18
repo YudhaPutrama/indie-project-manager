@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+class ScheduleController extends Controller
+{
+    public function listSchedule(){
+
+    }
+
+    public function addSchedule(){
+
+    }
+
+    public function requestSchedule(){
+
+    }
+
+    public function acceptSchedule(){
+
+    }
+}

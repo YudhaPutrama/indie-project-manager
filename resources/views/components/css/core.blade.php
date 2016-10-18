@@ -10,4 +10,3 @@
 <link href="/css/plugins.css" rel="stylesheet" type="text/css"/>
 <link href="/css/layout.css" rel="stylesheet" type="text/css"/>
 <link href="/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
-<link href="/css/custom.css" rel="stylesheet" type="text/css"/>
