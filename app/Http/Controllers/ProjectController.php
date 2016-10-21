@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Photo;
+use App\User;
 use Auth;
 use Config;
 use Image;
@@ -24,12 +25,61 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(),[
             'name'=>'required',
             'description'=>'required',
-            'picture'=>'image'
+            'picture'=>'required|image',
+            'start'=>'required|date',
+            'deadline'=>'required|date|after:start',
+        ]);
+        if ($validator->passes()){
+            $picture = $request['picture'];
+            $filename = time().'_'.Auth::user()->id.'.'.$request->file('picture')->getClientOriginalExtension();
+            Image::make($picture)->fit(300, 300)->save(public_path(Config::get('image.dir.projects.picture').$filename));
+
+            $project = new Project();
+            $project->name = $request->get('name');
+            $project->description = $request->get('description');
+            $project->picture = $filename;
+            $project->start = $request->get('start');
+            $project->deadline = $request->get('deadline');
+            $project->user_id = Auth::user()->id;
+
+            if ($project->save()){
+                return Response::json(['status'=>'success']);
+            }
+
+        }
+        return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
+    }
+
+    public function updateProject(Project $project, Request $request){
+        $this->user = Auth::user();
+        $validator = Validator::make($request->all(),[
+            'name'=>'required',
+            'description'=>'required',
+            'picture'=>'image',
+            'start'=>'required|date',
+            'deadline'=>'required|date|after:start',
         ]);
         if ($validator->passes()){
 
+
+            $project->name = $request->get('name');
+            $project->description = $request->get('description');
+            if ($request->hasFile('picture')){
+                $picture = $request['picture'];
+                $filename = time().'_'.Auth::user()->id.'.'.$request->file('picture')->getClientOriginalExtension();
+                Image::make($picture)->fit(300, 300)->save(public_path(Config::get('image.dir.projects.picture').$filename));
+                $project->picture = $filename;
+            }
+            $project->start = $request->get('start');
+            $project->deadline = $request->get('deadline');
+            $project->user_id = Auth::user()->id;
+
+            if ($project->save()){
+                return Response::json(['status'=>'success']);
+            }
+
         }
-        return Response::json(['status'=>'error']);
+        return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
     }
 
     public function listProject(){
@@ -57,9 +107,10 @@ class ProjectController extends Controller
         } else {
             $project = Auth::user()->projects()->first();
             if ($project==null){
-                $project = [];
+                return view('no-project');
             }
-            return view('project-detail',['user'=>$user, 'project'=>$project]);
+            return redirect()->route('project-detail',['project'=>$project]);
+            //return view('project-detail',['user'=>$user, 'project'=>$project]);
         }
     }
 
@@ -106,6 +157,7 @@ class ProjectController extends Controller
             $photo->url = $filename_full;
             $photo->url_thumb = $filename_icon;
             $photo->status = "uploaded";
+            $photo->location = '';
 
 
             if ($project->photos()->save($photo)){
@@ -116,7 +168,54 @@ class ProjectController extends Controller
         return Response::json(['status'=>'error']);
     }
 
+    public function listMember(Project $project, Request $request){
+        //return $project->members;
+        $members = $project->members;
+        //$staff = $members->
+        return view('member-list', ['members'=>$members]);
+    }
+
+    public function addMember(Request $request, Project $project){
+        $this->authorize('update', $project);
+        if ($request->has('fromId')){
+            $user = User::where('username',$request->get('username'))->first();
+            if ($user==null){
+                return Response::json(['status'=>'error']);
+            }
+
+            $project->members()->attach($user->id);
+
+            return Response::json(['status'=>'success']);
+        }
+        $validator = Validator::make($request->all(),[
+            'email'=>'required|email',
+            'username'=>'required',
+            'password'=>'required'
+        ]);
+        if ($validator->fails()){
+            return Response::json(['status'=>'error','error'=>$validator->errors()->first()]);
+        }
+        $user = new User();
+        $user->username = $request->get('username');
+        $user->email = $request->get('email');
+        $user->password = bcrypt($request->get('password'));
+        if (!$user->makeClient()){
+            return Response::json(['status'=>'error','error'=>'cannot save data']);
+        }
+        $project->members()->attach($user->id);
+        return Response::json(['status'=>'success','user'=>$user]);
+    }
+
+    public function removeMember(Project $project, User $user){
+        $project->members()->detach($user->id);
+        if($user->delete()){
+            return redirect()->back()->with('message','User have been removed');
+        }
+        return redirect()->back()->with('message','Error remove user');
+    }
+
     public function showMembers(){
+
     }
 
 }

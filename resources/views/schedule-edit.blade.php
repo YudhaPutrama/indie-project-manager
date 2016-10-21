@@ -1,821 +1,98 @@
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('css-depends')
     @include('components.css.core')
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link rel="stylesheet" type="text/css" href="/vendor/clockface/css/clockface.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datepicker/css/datepicker3.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-colorpicker/css/colorpicker.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+    <link href="/vendor/fullcalendar/fullcalendar.min.css" rel="stylesheet"/>
     <!-- END PAGE LEVEL STYLES -->
+
 @endsection
 
 @section('js-depends')
     @include('components.js.core')
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-    <script type="text/javascript" src="/vendor/clockface/js/clockface.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-daterangepicker/moment.min.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+    <script src="/vendor/moment.min.js"></script>
+    <script src="/vendor/fullcalendar/fullcalendar.min.js"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/js/metronic.js" type="text/javascript"></script>
     <script src="/js/layout.js" type="text/javascript"></script>
-    <script src="/js/pages/components-pickers.js"></script>
-    <!-- END PAGE LEVEL SCRIPTS -->
+    <script src="/js/pages/calendar.js"></script>
     <script>
         jQuery(document).ready(function() {
             // initiate layout and plugins
-            Metronic.init(); // init metronic core components
-            Layout.init(); // init current layout
-            ComponentsPickers.init();
+            Calendar.init();
         });
     </script>
-    <!-- END JAVASCRIPTS -->
+    <!-- END PAGE LEVEL SCRIPTS -->
 @endsection
 
-@section('sidebar')
-    @include('layouts.sidebar')
-@endsection
 @section('content')
-<!-- BEGIN PAGE HEADER-->
-<div class="page-bar">
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="/home">Home</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="#">Schedule</a>
-        </li>
-    </ul>
-</div>
-<h3 class="page-title">
-    Schedule Edit<small></small>
-</h3>
-<!-- END PAGE HEADER-->
-<!-- BEGIN PAGE CONTENT-->
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet light">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Date Pickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Default Datepicker</label>
-                            <div class="col-md-3">
-                                <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value=""/>
-                                <span class="help-block">
-											Select date </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Disable Past Dates</label>
-                            <div class="col-md-3">
-                                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                    <input type="text" class="form-control" readonly>
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                                <span class="help-block">
-											Select date </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Start With Years</label>
-                            <div class="col-md-3">
-                                <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
-                                    <input type="text" class="form-control" readonly>
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                                <span class="help-block">
-											Select date </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Months Only</label>
-                            <div class="col-md-3">
-                                <div class="input-group input-medium date date-picker" data-date="10/2012" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
-                                    <input type="text" class="form-control" readonly>
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                                <span class="help-block">
-											Select month only </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Date Range</label>
-                            <div class="col-md-4">
-                                <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                                    <input type="text" class="form-control" name="from">
-                                    <span class="input-group-addon">
-												to </span>
-                                    <input type="text" class="form-control" name="to">
-                                </div>
-                                <!-- /input-group -->
-                                <span class="help-block">
-											Select date range </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Inline</label>
-                            <div class="col-md-3">
-                                <div class="date-picker" data-date-format="mm/dd/yyyy">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-3">
-                                <a class="btn yellow" href="#form_modal2" data-toggle="modal">
-                                    View Datepicker in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="form_modal2" class="modal fade" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Datepickers In Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Default Datepicker</label>
-                                        <div class="col-md-8">
-                                            <input class="form-control input-medium date-picker" size="16" type="text" value=""/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Disable Past Dates</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                                <input type="text" class="form-control" readonly>
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                            <span class="help-block">
-														Select date </span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Start With Years</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
-                                                <input type="text" class="form-control" readonly>
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Months Only</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group input-medium date date-picker" data-date="10/2012" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
-                                                <input type="text" class="form-control" readonly>
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Date Range</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group input-medium date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                                                <input type="text" class="form-control" name="from">
-                                                <span class="input-group-addon">
-															to </span>
-                                                <input type="text" class="form-control" name="to">
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green" data-dismiss="modal">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END FORM-->
+    <!-- BEGIN PAGE HEADER-->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="/">Home</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="{{ url('/schedule') }}">Schedule</a>
+            </li>
+        </ul>
+        <div class="page-toolbar">
+            <div class="btn-group pull-right">
+                <a href="#request-schedule" type="button" class="btn btn-fit-height red">
+                    Request Schedule
+                </a>
             </div>
         </div>
-        <!-- END PORTLET-->
     </div>
-</div>
-{{--
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet box green-meadow">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Datetime Pickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Default Datetimepicker</label>
-                            <div class="col-md-4">
-                                <div class="input-group date form_datetime">
-                                    <input type="text" size="16" readonly class="form-control">
-                                    <span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Advance Datetimepicker</label>
-                            <div class="col-md-4">
-                                <div class="input-group date form_datetime" data-date="2012-12-21T15:25:00Z">
-                                    <input type="text" size="16" readonly class="form-control">
-                                    <span class="input-group-btn">
-												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Meridian Format</label>
-                            <div class="col-md-4">
-                                <div class="input-group date form_meridian_datetime" data-date="2012-12-21T15:25:00Z">
-                                    <input type="text" size="16" class="form-control">
-                                    <span class="input-group-btn">
-												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Inline</label>
-                            <div class="col-md-4">
-                                <div class="form_datetime" data-date="2012-12-21T15:25:00Z">
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-4">
-                                <a class="btn yellow" href="#form_modal1" data-toggle="modal">
-                                    View Datetimepicker in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
+    <h3 class="page-title">
+        Calendar <small>calendar page</small>
+    </h3>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light calendar" id="request-schedule">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Schedule Request
                     </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn purple"><i class="fa fa-check"></i> Submit</button>
-                                <button type="button" class="btn default">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="form_modal1" class="modal fade" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Datetimepicker in Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Default Datetimepicker</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group date form_datetime input-medium">
-                                                <input type="text" size="16" readonly class="form-control">
-                                                <span class="input-group-btn">
-															<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Advance Datetimepicker</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group date form_datetime input-large" data-date="2012-12-21T15:25:00Z">
-                                                <input type="text" size="16" readonly class="form-control">
-                                                <span class="input-group-btn">
-															<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-															<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Meridian Format</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group date form_meridian_datetime input-large" data-date="2012-12-21T15:25:00Z">
-                                                <input type="text" size="16" class="form-control">
-                                                <span class="input-group-btn">
-															<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-															<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <!-- BEGIN DRAGGABLE EVENTS PORTLET-->
+                            <h3 class="event-form-title">Add Event</h3>
+                            <div id="external-events">
+                                <form class="inline-form">
+                                    <input type="text" value="" class="form-control" placeholder="Event Title..." id="event_title"/><br/>
+                                    <a href="javascript:;" id="event_add" class="btn default">
+                                        Add Event </a>
                                 </form>
+                                <hr/>
+                                <div id="event_box">
+                                </div>
+                                <hr class="visible-xs"/>
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green btn-primary" data-dismiss="modal">Save changes</button>
+                            <!-- END DRAGGABLE EVENTS PORTLET-->
+                        </div>
+                        <div class="col-md-9 col-sm-12">
+                            <div id="calendar" class="has-toolbar  schedule-request">
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- END FORM-->
-            </div>
-        </div>
-        <!-- END PORTLET-->
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet box red-sunglo">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Time Pickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body form">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Default Timepicker</label>
-                            <div class="col-md-3">
-                                <div class="input-icon">
-                                    <i class="fa fa-clock-o"></i>
-                                    <input type="text" class="form-control timepicker timepicker-default">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Without Seconds</label>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control timepicker timepicker-no-seconds">
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-												</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">24hr Timepicker</label>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control timepicker timepicker-24">
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-												</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-3">
-                                <a class="btn yellow" href="#form_modal4" data-toggle="modal">
-                                    View Timepicker in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="form_modal4" class="modal fade" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Timepickers In Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Default Timepicker</label>
-                                        <div class="col-md-5">
-                                            <div class="input-icon">
-                                                <i class="fa fa-clock-o"></i>
-                                                <input type="text" class="form-control timepicker timepicker-default">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Without Seconds</label>
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control timepicker timepicker-no-seconds">
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-															</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">24hr Timepicker</label>
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control timepicker timepicker-24">
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-															</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green btn-primary" data-dismiss="modal">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END FORM-->
-            </div>
-        </div>
-        <!-- END PORTLET-->
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet box blue-steel">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>
-                    Clockface Time Pickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Input</label>
-                            <div class="col-md-3">
-                                <input type="text" value="2:30 PM" data-format="hh:mm A" class="form-control clockface_1"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Button</label>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" id="clockface_2" value="14:30" class="form-control" readonly=""/>
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button" id="clockface_2_toggle"><i class="fa fa-clock-o"></i></button>
-												</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Inline</label>
-                            <div class="col-md-4">
-                                <div class="well clockface_3" style="padding: 0; width: 162px;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-3">
-                                <a class="btn yellow" href="#form_modal5" data-toggle="modal">
-                                    View Clockface Time Pickers in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="form_modal5" class="modal fade" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Clockface In Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Input</label>
-                                        <div class="col-md-4">
-                                            <input type="text" value="2:30 PM" data-format="hh:mm A" class="form-control clockface_1"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Button</label>
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <input type="text" id="clockface_2_modal" value="14:30" class="form-control" readonly=""/>
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button" id="clockface_2_modal_toggle"><i class="fa fa-clock-o"></i></button>
-															</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Inline</label>
-                                        <div class="col-md-4">
-                                            <div class="well clockface_3" style="padding: 0; width: 162px;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green" data-dismiss="modal">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- END CALENDAR PORTLET-->
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet box yellow-crusta">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Daterangepickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Default Date Ranges</label>
-                            <div class="col-md-4">
-                                <div class="input-group" id="defaultrange">
-                                    <input type="text" class="form-control">
-                                    <span class="input-group-btn">
-												<button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label class="control-label col-md-3">Advance Date Ranges</label>
-                            <div class="col-md-4">
-                                <div id="reportrange" class="btn default">
-                                    <i class="fa fa-calendar"></i>
-                                    &nbsp; <span>
-												</span>
-                                    <b class="fa fa-angle-down"></b>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-4">
-                                <a class="btn yellow" href="#daterangepicker_modal" data-toggle="modal">
-                                    View Daterange Picker in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
-                                <button type="button" class="btn default">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="daterangepicker_modal" class="modal fade" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Daterange Picker in Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Default Date Ranges</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group input-large" id="defaultrange_modal">
-                                                <input type="text" class="form-control">
-                                                <span class="input-group-btn">
-															<button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green btn-primary" data-dismiss="modal">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END FORM-->
-            </div>
-        </div>
-        <!-- END PORTLET-->
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN PORTLET-->
-        <div class="portlet box green-meadow">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Color Pickers
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Default</label>
-                            <div class="col-md-3">
-                                <input type="text" class="colorpicker-default form-control" value="#8fff00"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">RGBA</label>
-                            <div class="col-md-3">
-                                <input type="text" class="colorpicker-rgba form-control" value="rgb(0,194,255,0.78)" data-color-format="rgba"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">As Component</label>
-                            <div class="col-md-3">
-                                <div class="input-group color colorpicker-default" data-color="#3865a8" data-color-format="rgba">
-                                    <input type="text" class="form-control" value="#3865a8" readonly>
-                                    <span class="input-group-btn">
-												<button class="btn default" type="button"><i style="background-color: #3865a8;"></i>&nbsp;</button>
-												</span>
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <label class="control-label col-md-3"></label>
-                            <div class="col-md-4">
-                                <a class="btn yellow" href="#form_modal3" data-toggle="modal">
-                                    View colorpicker in modal <i class="fa fa-share"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div id="form_modal3" class="modal fade" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Colorpicker in Modal</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Default</label>
-                                        <div class="col-md-5">
-                                            <input type="text" class="colorpicker-default form-control" value="#8fff00"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">RGBA</label>
-                                        <div class="col-md-5">
-                                            <input type="text" class="colorpicker-rgba form-control" value="rgb(0,194,255,0.78)" data-color-format="rgba"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group last">
-                                        <label class="control-label col-md-3">As Component</label>
-                                        <div class="col-md-5">
-                                            <div class="input-group color colorpicker-default" data-color="#3865a8" data-color-format="rgba">
-                                                <input type="text" class="form-control" value="#3865a8" readonly>
-                                                <span class="input-group-btn">
-															<button class="btn default" type="button"><i style="background-color: #3865a8;"></i>&nbsp;</button>
-															</span>
-                                            </div>
-                                            <!-- /input-group -->
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn green btn-primary" data-dismiss="modal">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END FORM-->
-            </div>
-        </div>
-        <!-- END PORTLET-->
-    </div>
-</div>
---}}
-<!-- END PAGE CONTENT-->
+    <!-- END PAGE CONTENT-->
 @endsection

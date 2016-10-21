@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Photo;
 use App\Project;
+use App\Schedule;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -32,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('user', User::class);
         Route::model('project', Project::class);
         Route::model('photo', Photo::class);
+        Route::model('event', Schedule::class);
     }
 
     /**

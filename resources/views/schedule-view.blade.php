@@ -47,9 +47,7 @@
     </ul>
     <div class="page-toolbar">
         <div class="btn-group pull-right">
-            <a href="#request-schedule" type="button" class="btn btn-fit-height red">
-                Request Schedule
-            </a>
+            {{--<a href="#request-schedule" type="button" class="btn btn-fit-height red">Request Schedule</a>--}}
         </div>
     </div>
 </div>
@@ -79,6 +77,9 @@
     </div>
 </div>
 
+
+
+{{--
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light calendar" id="request-schedule">
@@ -116,4 +117,5 @@
     </div>
 </div>
 <!-- END PAGE CONTENT-->
+--}}
 @endsection

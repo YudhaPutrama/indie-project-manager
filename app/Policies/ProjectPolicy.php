@@ -30,7 +30,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        //
+        return !$project->members->where('id', $user->id)->isEmpty();
     }
 
     /**
@@ -41,7 +41,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+
     }
 
     /**
@@ -53,7 +53,11 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        //
+        if ($user->hasRole('client')){
+            return false;
+        }
+
+        return !$project->members->where('id', $user->id)->isEmpty();
     }
 
     /**
@@ -65,6 +69,6 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        //
+        return !$project->members->where('id', $user->id)->isEmpty();
     }
 }

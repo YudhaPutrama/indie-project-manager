@@ -41,7 +41,7 @@
             <h3 class="uppercase">Featured Project</h3>
         </li>
 
-        @foreach($projects as $project)
+        @foreach(Auth::user()->favorite_projects as $project)
         <li>
             <a href="#">
                 <i class="icon-book-open"></i>

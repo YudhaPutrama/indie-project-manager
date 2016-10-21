@@ -65,6 +65,12 @@ class SchedulePolicy
      */
     public function delete(User $user, Schedule $schedule)
     {
-        //
+        if ($user->hasRole('staff')){
+            $project = $schedule->project;
+            if (!$project->members->where('id', $user->id).isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
 }

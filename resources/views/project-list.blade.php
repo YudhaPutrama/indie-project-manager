@@ -23,15 +23,10 @@
     <script type="text/javascript" src="/vendor/jquery-validation/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/vendor/jquery-validation/js/additional-methods.min.js"></script>
     <script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-    <script type="text/javascript" src="/vendor/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
 
     <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-fileinput/bootstrap-fileinput.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
     <script>
         jQuery(document).ready(function() {
@@ -44,7 +39,7 @@
             Index.initMiniCharts();
             FormValidation.init();
 
-            $("form#uploadAvatar").submit(function() {
+            $("form#newProject").submit(function() {
 
                 var formData = new FormData($(this)[0]);
 
@@ -56,14 +51,14 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
-                            toastr['success']("Avatar upload success", "Avatar Upload");
+                            toastr['success']("Project successfully created", "Add Project");
                         } else {
-                            toastr['error']("Something error", "Avatar Upload")
+                            toastr['error']("Something error", "Add Project")
                         }
                         console.log(data);
                     },
                     error: function (data) {
-                        toastr['error']("Can't connect to server", "Avatar Upload")
+                        toastr['error']("Can't connect to server", "Add Project")
                     },
                     cache: false,
                     contentType: false,
@@ -98,7 +93,7 @@
     <div class="modal fade" id="add-project" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" id="form_project" class="form-horizontal">
+                <form role="form" method="post" id="newProject" class="form-horizontal">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title">New Project</h4>
@@ -134,25 +129,30 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Project Picture</label>
-                                <div class="col-md-8">
-                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                        <input type="text" class="form-control" readonly="" name="datepicker">
-                                        <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
+                                <div class="col-md-9">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                                        <div>
+                                            <span class="btn default btn-file">
+                                            <span class="fileinput-new">
+                                            Select image </span>
+                                            <span class="fileinput-exists">
+                                            Change </span>
+                                            <input type="file" name="picture">
+                                            </span>
+                                            <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">
+                                            Remove </a>
+                                        </div>
                                     </div>
-                                    <!-- /input-group -->
-                                    <span class="help-block">
-											select a date </span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Start</label>
                                 <div class="col-md-8">
-                                    <div class="input-group date form_datetime">
-                                        <input type="text" size="16" readonly="" class="form-control" name="start-date">
+                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                        <input type="text" class="form-control" readonly="" name="start">
                                         <span class="input-group-btn">
-                                            <button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                         </span>
                                     </div>
                                 </div>
@@ -161,10 +161,10 @@
                                 <label class="control-label col-md-3">Deadline</label>
                                 <div class="col-md-8">
                                     <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                        <input type="text" class="form-control" readonly="" name="datepicker">
+                                        <input type="text" class="form-control" readonly="" name="deadline">
                                         <span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
+                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -221,12 +221,12 @@
                     <a href="/projects/{{ $project['id'] }}">
                     <div class="row">
                         <div class="col-md-2">
-                            <img class="project-picture" src="{{ ($project['project_picture'].isEmptyOrNullString())?'/img/project-holder.jpg':'/img/projects/pictures/'.$project['project_picture'] }}" class="img-responsive" alt="">
+                            <img class="project-picture img-responsive" src="{{ Config::get('image.dir.projects.picture').$project['picture'] }}" class="img-responsive" alt="">
                         </div>
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-12">
-                                        <h2 style="margin-top: 0px;">{{ $project['title'] }}</h2>
+                                    <h2 style="margin-top: 0px;">{{ $project['name'] }}</h2>
                                 </div>
                             </div>
                             <div class="row">
@@ -242,17 +242,18 @@
                                         <i class="fa fa-times"></i> {{ ($countAll-$countDone) }}
                                     </span>
                                     </p>
-                                    <div class="note note-warning">
-                                        <p>
-                                            Progress bars
-                                        </p>
-                                    </div>
+
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ $countDone }}" aria-valuemin="0" aria-valuemax="{{ $countAll }}" style="width: {{ $progressDone = $countDone/(($countAll>0)?$countAll:1)*100 }}%">
-                                <span class="sr-only">
-                                    40% Complete (success)
-                                </span>
+                                        <span class="sr-only">
+
+                                        </span>
                                         </div>
+                                    </div>
+                                    <div class="note note-warning">
+                                        <p>
+                                            {{ $project['description'] }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -261,7 +262,7 @@
                                         @foreach($project['members'] as $member)
                                             <li class="tooltips" data-container="body" data-placement="bottom" data-original-title="{{ $member['fullname'] }}">
                                             <span class="photo">
-                                                <img  src="{{ "/uploads/avatar/".$member['avatar'] }}" class="img-circle" style="width: 45px; height: 45px;">
+                                                <img  src="{{ "/uploads/avatar/".(($member['avatar']!=null)?$member['avatar']:"default.jpg") }}" class="img-circle" style="width: 45px; height: 45px;">
                                             </span>
                                             </li>
                                             @if($loop->count == 4)
@@ -272,11 +273,9 @@
                                                 </li>
                                                 @break
                                             @endif
-
                                         @endforeach
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </div>

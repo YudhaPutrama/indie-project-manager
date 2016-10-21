@@ -38,6 +38,7 @@ class FirstSetupTables extends Migration
             $table->string('institution')->default('');
 
 
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -57,7 +58,6 @@ class FirstSetupTables extends Migration
             $table->boolean('scheduleAccepted');
             $table->date('start');
             $table->date('deadline');
-
             $table->softDeletes();
             $table->timestamps();
         });
@@ -67,6 +67,21 @@ class FirstSetupTables extends Migration
             $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
+        });
+
+
+        Schema::create('favorite_projects', function (Blueprint $table){
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('project_id');
+
+            $table->primary('user_id','project_id');
+        });
+
+        Schema::create('favorite_photos', function (Blueprint $table){
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('photos_id');
+
+            $table->primary('user_id','project_id');
         });
 
 //        Schema::create('gallery', function (Blueprint $table){
@@ -83,7 +98,7 @@ class FirstSetupTables extends Migration
             $table->unsignedInteger('user_id'); //uploader id
             $table->unsignedInteger('project_id'); //album id
             $table->string('title');
-            $table->string('location');
+            $table->string('location')->default('');
             $table->string('url');
             $table->string('url_thumb');
             $table->string('status')->default('uploaded'); //uploaded, reviewed, done
@@ -123,7 +138,7 @@ class FirstSetupTables extends Migration
             $table->string('location');
             $table->date('start');
             $table->date('end');
-            $table->string('color');
+            //$table->string('color');
             $table->string('status'); // done, ongoing, pending
 
             $table->timestamps();

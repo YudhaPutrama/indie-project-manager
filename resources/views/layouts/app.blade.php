@@ -98,7 +98,7 @@
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <li class="dropdown dropdown-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="" class="img-circle" src="{{ "/uploads/avatar/".Auth::user()->avatar }}"/>
+                        <img alt="" id="avatar-img" class="img-circle" src="{{ "/uploads/avatar/".((Auth::user()->avatar!=null)?Auth::user()->avatar:"default.jpg") }}"/>
                         <span class="username username-hide-on-mobile">{{ Auth::user()->nickname }}</span>
                         <i class="fa fa-angle-down"></i>
                     </a>

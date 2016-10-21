@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
@@ -10,6 +11,8 @@ class User extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;
+    //use SoftDeletes;
+
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +32,11 @@ class User extends Authenticatable
         'password', 'remember_token', 'pivot',
     ];
 
+
+    public function favorite_projects(){
+        return $this->belongsToMany('App\Project', 'favorite_projects');
+    }
+
     public function comments(){
         return $this->hasMany('App\Comment');
     }
@@ -38,10 +46,25 @@ class User extends Authenticatable
     }
 
 
-    public function save(array $options = [], $role=3)
-    {
+    public function makeClient(array $options = []){
         if (parent::save($options)){
-            $this->roles()->attach($role);
+            $this->roles()->attach(3);
+            return true;
+        }
+        return false;
+    }
+
+    public function makeStaff(array $options = []){
+        if (parent::save($options)){
+            $this->roles()->attach(2);
+            return true;
+        }
+        return false;
+    }
+
+    public function makeAdmin(array $options = []){
+        if (parent::save($options)){
+            $this->roles()->attach(1);
             return true;
         }
         return false;

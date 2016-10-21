@@ -7,6 +7,7 @@ use Auth;
 
 use Hash;
 use Illuminate\Http\Request;
+use Response;
 use Validator;
 use Image;
 
@@ -26,14 +27,13 @@ class UserController extends Controller
 //        return $user = User::find($id);
         $user = User::find($id);
         if ($user!=null){
-            $comments=$user->comments;
-            return view('profile-view', ['user'=>$user,'comments'=>$comments]);
+            return view('profile-view', ['user'=>$user]);
         }
-        return redirect('/home');
+        return redirect('/');
     }
 
-    public function addUser(Request $request){
-
+    public function viewUser(User $user){
+        return view('user-view', ['user'=>$user]);
     }
 
     public function showProfile(){
@@ -55,7 +55,6 @@ class UserController extends Controller
     }
 
     public function updateProfile(Request $request){
-
         if ($request->hasFile('avatar')){
             $validator = Validator::make($request->all(), ['avatar' => 'image']);
             if ($validator->fails()){
@@ -119,5 +118,62 @@ class UserController extends Controller
         return json_encode(['status'=>'error']);
     }
 
+    public function listUsers(){
+        $users = User::all();
+        return view('user-list',['users'=>$users]);
 
+    }
+
+    public function newUser(Request $request){
+        $this->authorize('create', User::class);
+        $validator = Validator::make($request->all(), [
+            'role'=>'required',
+            'email'=>'required|email|unique:users,email',
+            'username'=>'required|unique:users,username',
+            'password'=>'required'
+        ]);
+        if ($validator->fails()){
+            return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
+        }
+        $user = new User();
+        $user->email = $request->get('email');
+        $user->username = $request->get('username');
+        $user->password = bcrypt($request->get('password'));
+        $user->fullname = $request->get('fullname');
+        $user->institution = $request->get('institution');
+        $role = $request->get('role');
+        if ($role=='admin'){
+            $make=$user->makeAdmin();
+        } else if ($role=='staff'){
+            $make=$user->makeStaff();
+        } else if ($role=='client'){
+            $make=$user->makeClient();
+        } else {
+            return Response::json(['status'=>'error']);
+        }
+        if ($make){
+            return Response::json(['status'=>'success']);
+        }
+        return Response::json(['status'=>'error']);
+    }
+
+    public function resetPassword(User $user, Request $request){
+
+    }
+
+    public function removeUser(User $user){
+        $this->authorize('delete', $user);
+        if ($user->delete()){
+            return Response::json(['status'=>'success']);
+        }
+        return Response::json(['status'=>'error']);
+    }
+
+    public function checkUsername(Request $request){
+        if(Auth::user()->hasRole('admin')){
+            if (User::where('username',$request->get('username')))
+            return Response::json(['status'=>'success']);
+        }
+        return Response::json(['status'=>'error']);
+    }
 }

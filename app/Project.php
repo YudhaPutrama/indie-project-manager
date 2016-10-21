@@ -26,4 +26,12 @@ class Project extends Model
     public function schedule(){
         return $this->hasMany('App\Schedule');
     }
+
+
+
+    public function getPercentsAttribute(){
+        $a = Project::all();
+
+        return false;
+    }
 }

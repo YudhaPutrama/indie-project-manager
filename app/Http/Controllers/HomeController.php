@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\Photo;
+use App\Project;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,6 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('auth');
     }
 
@@ -23,7 +29,15 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->hasRole('admin')){
+            $projects = Project::all()->where('created_at','>=', Carbon::now()->addMonths(-1));
+            $comments = Comment::all()->where('created_at','>=', Carbon::now()->addMonths(-1));
+            $photos = Photo::all()->where('created_at','>=', Carbon::now()->addMonths(-1));
 
-        return view('dashboard');
+
+            return view('dashboard',['comments'=>$comments, 'photos'=>$photos, 'projects'=>$projects]);
+        }
+        return redirect('/projects');
+
     }
 }

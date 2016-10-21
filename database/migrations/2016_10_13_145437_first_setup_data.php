@@ -26,7 +26,7 @@ class FirstSetupData extends Migration
         $staff = new Role();
         $staff->name         = 'staff';
         $staff->display_name = 'User Staff'; // optional
-        $staff->description  = 'User is allowed to manage and upload photos'; // optional
+        $staff->description  =  'User is allowed to manage and upload photos'; // optional
         $staff->save();
 
         $client = new Role();
@@ -39,14 +39,14 @@ class FirstSetupData extends Migration
         $user->email = "admin@admin.com";
         $user->username = "admin";
         $user->password = bcrypt('admin12345');
-        $user->save([],1);
+        $user->makeAdmin();
         //$user->attachRole($admin);
 
         $client1 = new User();
         $client1->email = "user1@test.com";
         $client1->username = "user1";
         $client1->password = bcrypt('user12345');
-        $client1->save();
+        $client1->makeClient();
 //        $client1->attachRole($client);
 
         $project = new Project();

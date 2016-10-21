@@ -175,16 +175,16 @@ var FormValidation = function () {
         // for more info visit the official plugin documentation:
         // http://docs.jquery.com/Plugins/Validation
 
-            var form3 = $('#form_project');
+            var form3 = $('#newProject');
             var error3 = $('.alert-danger', form3);
             var success3 = $('.alert-success', form3);
 
             //IMPORTANT: update CKEDITOR textarea with actual content before submit
-            form3.on('submit', function() {
-                for(var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement();
-                }
-            });
+            // form3.on('submit', function() {
+            //     for(var instanceName in CKEDITOR.instances) {
+            //         CKEDITOR.instances[instanceName].updateElement();
+            //     }
+            // });
 
             form3.validate({
                 errorElement: 'span', //default input error message container
@@ -285,7 +285,7 @@ var FormValidation = function () {
                 submitHandler: function (form) {
                     success3.show();
                     error3.hide();
-                    form[0].submit(); // submit the form
+                    //form[0].submit(); // submit the form
                 }
 
             });
@@ -305,7 +305,8 @@ var FormValidation = function () {
             //initialize datepicker
             $('.date-picker').datepicker({
                 rtl: Metronic.isRTL(),
-                autoclose: true
+                autoclose: true,
+                format: 'yyyy-mm-dd'
             });
             $('.date-picker .form-control').change(function() {
                 form3.validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
