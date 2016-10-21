@@ -95,7 +95,6 @@ Google Maps).
             callback();
         });
     };
-    
     $.plot.image.load = function (urls, callback) {
         var missing = urls.length, loaded = {};
         if (missing == 0)

@@ -343,9 +343,8 @@
 			});
 			return false;
 		}
-	};
-
-	$.fn.colorpicker = function ( option, val ) {
+    };
+    $.fn.colorpicker = function ( option, val ) {
 		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('colorpicker'),
@@ -537,4 +536,4 @@
 						'</div>'
 	};
 
-}( window.jQuery );
+}(window.jQuery);

@@ -321,9 +321,8 @@ More detail and specific examples can be found in the included HTML file.
 				if (options.series.pie.tilt <= 0.8) {
 					drawShadow();
 				}
-			} while (!drawPie() && attempts < REDRAW_ATTEMPTS);
-
-			if (attempts >= REDRAW_ATTEMPTS) {
+            } while (!drawPie() && attempts < REDRAW_ATTEMPTS);
+            if (attempts >= REDRAW_ATTEMPTS) {
 				clear();
 				target.prepend("<div class='error'>Could not draw pie with labels contained inside canvas</div>");
 			}

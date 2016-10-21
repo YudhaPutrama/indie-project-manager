@@ -83,7 +83,7 @@
                         console.log(data);
                     },
                     error: function (data) {
-                        toastr['error']("Can't connect to server", "Post Comment");
+                        toastr['error']("Can't connect to server", "Post Comment");;
                         //
                     },
                     cache: false,

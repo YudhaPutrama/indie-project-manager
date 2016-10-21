@@ -8,7 +8,6 @@
             ratingLabel: 'rating'
         }
     };
-
     $.fn.rateit = function (p1, p2) {
         //quick way out.
         var index = 1;

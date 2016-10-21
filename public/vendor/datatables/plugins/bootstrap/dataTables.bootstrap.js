@@ -112,7 +112,6 @@ $.fn.dataTable.ext.renderer.pageButton.bootstrap = function (settings, host, idx
         buttons
     );
 };
-
 /*
  * TableTools Bootstrap compatibility
  * Required TableTools 2.1+

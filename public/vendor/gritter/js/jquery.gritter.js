@@ -25,9 +25,8 @@
 		fade_in_speed: 'medium', // how fast notifications fade in
 		fade_out_speed: 1000, // how fast the notices fade out
 		time: 6000 // hang on the screen for...
-	};
-	
-	/**
+    };
+    /**
 	* Add a gritter notification to the screen
 	* @see Gritter#add();
 	*/
@@ -43,26 +42,23 @@
 				alert(err);
 				
 		}
-		
-	};
-	
-	/**
+
+};
+    /**
 	* Remove a gritter notification from the screen
 	* @see Gritter#removeSpecific();
 	*/
 	$.gritter.remove = function(id, params){
 		Gritter.removeSpecific(id, params || {});
-	};
-	
-	/**
+    };
+    /**
 	* Remove all notifications
 	* @see Gritter#stop();
 	*/
 	$.gritter.removeAll = function(params){
 		Gritter.stop(params || {});
-	};
-	
-	/**
+    };
+    /**
 	* Big fat Gritter object
 	* @constructor (not really since its object literal)
 	*/

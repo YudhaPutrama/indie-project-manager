@@ -79,9 +79,7 @@ DataTable.ext.renderer.header.jqueryui = function ( settings, cell, column, idx,
 			);
 	} );
 };
-
-
-/*
+    /*
  * TableTools jQuery UI compatibility
  * Required TableTools 2.1+
  */

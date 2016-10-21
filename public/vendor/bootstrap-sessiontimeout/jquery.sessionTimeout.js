@@ -76,9 +76,8 @@
 			// Stop redirect timer and restart warning timer
 			controlRedirTimer('stop');
 			controlDialogTimer('start');
-		});
-
-		function controlDialogTimer(action){
+        });
+        function controlDialogTimer(action){
 			switch(action) {
 				case 'start':
 					// After warning period, show dialog and start redirect timer

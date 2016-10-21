@@ -172,9 +172,8 @@
                 id = $(this).attr('id');
 		$('#'+id+'_tagsinput .tag').remove();
 		$.fn.tagsInput.importTags(this,str);
-	};
-		
-	$.fn.tagsInput = function(options) { 
+    };
+    $.fn.tagsInput = function(options) {
     var settings = jQuery.extend({
       interactive:true,
       defaultText:'add a tag',

@@ -29,8 +29,7 @@
   var Tab = function (element) {
     this.element = $(element)
   };
-
-  Tab.prototype = {
+    Tab.prototype = {
 
     constructor: Tab
 
@@ -40,29 +39,22 @@
         , selector = $this.attr('data-target')
         , previous
         , $target
-        , e;
-
-      if (!selector) {
-        selector = $this.attr('href');
-        selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
+          , e;
+          if (!selector) {
+          selector = $this.attr('href');
+          selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
       }
 
-      if ( $this.parent('li').hasClass('active') ) return;
-
-      previous = $ul.find('.active:last a')[0];
-
-      e = $.Event('show', {
+      if ($this.parent('li').hasClass('active')) return;
+          previous = $ul.find('.active:last a')[0];
+          e = $.Event('show', {
         relatedTarget: previous
       });
-
-      $this.trigger(e);
-
-      if (e.isDefaultPrevented()) return;
-
-      $target = $(selector);
-
-      this.activate($this.parent('li'), $ul);
-      this.activate($target, $target.parent(), function () {
+          $this.trigger(e);
+          if (e.isDefaultPrevented()) return;
+          $target = $(selector);
+          this.activate($this.parent('li'), $ul);
+          this.activate($target, $target.parent(), function () {
         $this.trigger({
           type: 'shown'
         , relatedTarget: previous
@@ -74,19 +66,16 @@
       var $active = container.find('> .active')
         , transition = callback
             && $.support.transition
-            && $active.hasClass('fade');
-
-      function next() {
+          && $active.hasClass('fade');
+          function next() {
         $active
           .removeClass('active')
           .find('> .dropdown-menu > .active')
-          .removeClass('active');
-
-        element.addClass('active');
-
-        if (transition) {
-          element[0].offsetWidth; // reflow for transition
-          element.addClass('in')
+            .removeClass('active');
+          element.addClass('active');
+          if (transition) {
+            element[0].offsetWidth; // reflow for transition
+            element.addClass('in')
         } else {
           element.removeClass('fade')
         }
@@ -100,45 +89,36 @@
 
       transition ?
         $active.one($.support.transition.end, next) :
-        next();
-
-      $active.removeClass('in')
+          next();
+          $active.removeClass('in')
     }
   };
-
-
- /* TAB PLUGIN DEFINITION
+    /* TAB PLUGIN DEFINITION
   * ===================== */
 
   var old = $.fn.tab;
-
-  $.fn.tab = function ( option ) {
+    $.fn.tab = function ( option ) {
     return this.each(function () {
       var $this = $(this)
-        , data = $this.data('tab');
-      if (!data) $this.data('tab', (data = new Tab(this)));
-      if (typeof option == 'string') data[option]()
+          , data = $this.data('tab');
+        if (!data) $this.data('tab', (data = new Tab(this)));
+        if (typeof option == 'string') data[option]()
     })
   };
-
-  $.fn.tab.Constructor = Tab;
-
-
- /* TAB NO CONFLICT
+    $.fn.tab.Constructor = Tab;
+    /* TAB NO CONFLICT
   * =============== */
 
   $.fn.tab.noConflict = function () {
-    $.fn.tab = old;
-    return this
+      $.fn.tab = old;
+      return this
   };
-
-
- /* TAB DATA-API
+    /* TAB DATA-API
   * ============ */
 
   $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
-    e.preventDefault();
-    $(this).tab('show')
+      e.preventDefault();
+      $(this).tab('show')
   })
 
 }(window.jQuery);

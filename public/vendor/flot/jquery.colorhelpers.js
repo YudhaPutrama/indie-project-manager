@@ -69,7 +69,6 @@
 
         return o.normalize();
     };
-
     // extract CSS color property from element, going up in the DOM
     // if it's "transparent"
     $.color.extract = function (elem, css) {
@@ -90,7 +89,6 @@
         
         return $.color.parse(c);
     };
-    
     // parse CSS color string (like "rgb(10, 32, 43)" or "#fff"),
     // returns color object, if parsing failed, you get black (0, 0,
     // 0) out
@@ -131,7 +129,6 @@
             return m(res[0], res[1], res[2]);
         }
     };
-    
     var lookupColors = {
         aqua:[0,255,255],
         azure:[240,255,255],

@@ -412,9 +412,8 @@
 		backdropTemplate: '<div class="modal-backdrop" />'
 	};
 
-	$.fn.modalmanager.Constructor = ModalManager;
-
-	// ModalManager handles the modal-open class so we need 
+$.fn.modalmanager.Constructor = ModalManager;
+    // ModalManager handles the modal-open class so we need
 	// to remove conflicting bootstrap 3 event handlers
 	$(function () {
 		$(document).off('show.bs.modal').off('hidden.bs.modal');
