@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-fileinput/bootstrap-fileinput.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datepicker/css/datepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2-bootstrap.css" />
 @endsection
 
 @section('js-depends')
@@ -26,6 +27,7 @@
 
     <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+    <script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
 
     <script>
         jQuery(document).ready(function() {
@@ -37,6 +39,10 @@
             Index.initChat();
             Index.initMiniCharts();
             FormValidation.init();
+
+            $("#bs_confirmation_demo_1").on("confirmed.bs.confirmation", function() {
+                alert("You confirmed action #1")
+            }),
 
             $("form#editPost").submit(function() {
 
@@ -161,6 +167,28 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="multi-append" class="control-label">Tag</label>
+                                    <div class="input-group select2-bootstrap-append">
+                                        <select id="multi-append" class="form-control select2" multiple>
+                                            <option></option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="single" class="control-label">Category</label>
+                                    <select id="single" class="form-control select2">
+                                        <option></option>
+                                    </select>
                                 </div>
 
                             </div>

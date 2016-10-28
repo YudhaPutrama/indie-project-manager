@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-fileinput/bootstrap-fileinput.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datepicker/css/datepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.css" />
 @endsection
 
 @section('js-depends')
@@ -38,6 +39,7 @@
             Index.initMiniCharts();
 //            FormValidation.init();
 
+            $('.select2').select2();
             $("form").submit(function() {
 
                 var formData = new FormData($(this)[0]);
@@ -47,6 +49,7 @@
                     target: _this,
                     animate: true
                 });
+
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
@@ -137,17 +140,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Content<span class="required">* </span></label>
+                            <label for="body" class="control-label col-md-3">Content<span class="required">* </span></label>
                             <div class="col-md-8">
                                 <div class="input-icon right">
                                     <i class="fa"></i>
-                                    <textarea class="form-control" rows="4" name="body"></textarea>
+                                    <textarea id="body" class="form-control" rows="4" name="body"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Post Picture</label>
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
                                     <div>
@@ -162,6 +165,29 @@
                                             Remove </a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="control-label col-md-3">Post Picture</label>
+                            <div class="col-md-8">
+                                <div class="input-group select2-bootstrap-append">
+                                    <select id="tags" class="form-control select2" multiple>
+                                        <option value="A">A</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <label for="category" class="control-label">Category</label>
+                                <select id="category" class="form-control select2">
+                                    <option></option>
+                                </select>
                             </div>
                         </div>
 
