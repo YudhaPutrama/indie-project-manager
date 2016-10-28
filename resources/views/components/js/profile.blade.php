@@ -7,12 +7,14 @@
         $("form#uploadAvatar").submit(function() {
 
             var formData = new FormData($(this)[0]);
-
+            Metronic.blockUI({
+                target: $(this),
+                animate: true
+            });
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
                 data: formData,
-                async: false,
                 dataType: 'json',
                 success: function (data) {
                     if (data.status=='success'){
@@ -25,6 +27,9 @@
                 error: function (data) {
                     toastr['error']("Can't connect to server", "Avatar Upload")
                 },
+                complete: function (data){
+                    Metronic.unblockUI($(this))
+                },
                 cache: false,
                 contentType: false,
                 processData: false
@@ -34,7 +39,10 @@
         $("form#biodata").submit(function() {
 
             var formData = new FormData($(this)[0]);
-
+            Metronic.blockUI({
+                target: $(this),
+                animate: true
+            });
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -52,6 +60,9 @@
                 error: function (data) {
                     toastr['error']("Can't connect to server", "Biodata Update")
                 },
+                complete: function (data) {
+                    Metronic.unblockUI($(this))
+                },
                 cache: false,
                 contentType: false,
                 processData: false
@@ -62,6 +73,10 @@
 
             var formData = new FormData($(this)[0]);
 
+            Metronic.blockUI({
+                target: $(this),
+                animate: true
+            });
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -79,6 +94,9 @@
                 error: function (data) {
                     toastr['error']("Can't connect to server", "Change Password");
                     console.log(data);
+                },
+                complete: function(data){
+                    Metronic.unblockUI($(this))
                 },
                 cache: false,
                 contentType: false,

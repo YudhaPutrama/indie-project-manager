@@ -45,13 +45,13 @@
                 <a href="{{ url('/schedule') }}">Schedule</a>
             </li>
         </ul>
-        <div class="page-toolbar">
-            <div class="btn-group pull-right">
-                <a href="#request-schedule" type="button" class="btn btn-fit-height red">
-                    Request Schedule
-                </a>
-            </div>
-        </div>
+        {{--<div class="page-toolbar">--}}
+            {{--<div class="btn-group pull-right">--}}
+                {{--<a href="#request-schedule" type="button" class="btn btn-fit-height red">--}}
+                    {{--Request Schedule--}}
+                {{--</a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
     <h3 class="page-title">
         Calendar <small>calendar page</small>
@@ -63,28 +63,12 @@
             <div class="portlet light calendar" id="request-schedule">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Schedule Request
+                        <i class="fa fa-gift"></i>Schedule
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-md-3 col-sm-12">
-                            <!-- BEGIN DRAGGABLE EVENTS PORTLET-->
-                            <h3 class="event-form-title">Add Event</h3>
-                            <div id="external-events">
-                                <form class="inline-form">
-                                    <input type="text" value="" class="form-control" placeholder="Event Title..." id="event_title"/><br/>
-                                    <a href="javascript:;" id="event_add" class="btn default">
-                                        Add Event </a>
-                                </form>
-                                <hr/>
-                                <div id="event_box">
-                                </div>
-                                <hr class="visible-xs"/>
-                            </div>
-                            <!-- END DRAGGABLE EVENTS PORTLET-->
-                        </div>
-                        <div class="col-md-9 col-sm-12">
+                        <div class="col-md-12">
                             <div id="calendar" class="has-toolbar  schedule-request">
                             </div>
                         </div>

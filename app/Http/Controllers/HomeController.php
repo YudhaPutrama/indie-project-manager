@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('admin')){
+        if (Auth::user()->isAdmin()){
             $projects = Project::all()->where('created_at','>=', Carbon::now()->addMonths(-1));
             $comments = Comment::all()->where('created_at','>=', Carbon::now()->addMonths(-1));
             $photos = Photo::all()->where('created_at','>=', Carbon::now()->addMonths(-1));

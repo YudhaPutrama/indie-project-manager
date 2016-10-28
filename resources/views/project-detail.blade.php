@@ -34,12 +34,15 @@
             $("form#editProject").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -52,6 +55,9 @@
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Project")
                     },
+                    complete: function (data){
+                        Metronic.unblockUI(_this)
+                    },
                     cache: false,
                     contentType: false,
                     processData: false
@@ -62,12 +68,15 @@
             $("form#addEvent").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -81,6 +90,9 @@
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Project")
                     },
+                    complete: function (data){
+                        Metronic.unblockUI(_this)
+                    },
                     cache: false,
                     contentType: false,
                     processData: false
@@ -91,12 +103,15 @@
             $("form#editEvent").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname+'/event',
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -108,6 +123,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Project")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,
@@ -378,7 +396,7 @@
         <ul class="page-breadcrumb">
             <li>
                 <i class="fa fa-home"></i>
-                <a href="{{ url('/home') }}">Home</a>
+                <a href="{{ url('/') }}">Home</a>
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
@@ -552,7 +570,7 @@
                         <i class="fa fa-gift"></i>Photo List
                     </div>
                     <div class="actions">
-                        @can('create', Photo::class)
+                        @can('update', $project)
                         <a href="{{ Request::url().'/upload' }}" class="btn btn-circle red-sunglo ">
                             <i class="fa fa-plus"></i> Add </a>
                         @endcan

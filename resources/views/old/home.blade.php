@@ -8,12 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if(Entrust::hasRole('admin'))
+
                         You are logged in!
-                    @else
+
                         You're admin
 
-                    @endif
+
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ class ProjectPolicy
      * @return bool
      */
     public function before(User $user, $ability){
-        if ($user->hasRole('admin')){
+        if ($user->isAdmin()){
             return true;
         }
     }
@@ -53,7 +53,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        if ($user->hasRole('client')){
+        if ($user->isClient()){
             return false;
         }
 

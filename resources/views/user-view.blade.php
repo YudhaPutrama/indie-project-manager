@@ -73,7 +73,7 @@
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->
                 <div class="profile-userbuttons">
-                    @if(Entrust::hasRole('admin'))<a class="btn btn-circle btn-danger btn-sm">DELETE</a>@endif
+                    @if(Auth::user()->isAdmin())<a class="btn btn-circle btn-danger btn-sm">DELETE</a>@endif
                 </div>
                 <!-- END SIDEBAR BUTTONS -->
                 <div class="margin-top-20">

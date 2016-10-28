@@ -15,7 +15,7 @@ class UserPolicy
  * @return bool
  */
     public function before(User $user, $ability){
-        if ($user->hasRole('admin')){
+        if ($user->isAdmin()){
             return true;
         }
     }

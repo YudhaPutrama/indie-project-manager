@@ -17,46 +17,42 @@ class FirstSetupData extends Migration
      */
     public function up()
     {
-        $admin = new Role();
-        $admin->name         = 'admin';
-        $admin->display_name = 'User Administrator'; // optional
-        $admin->description  = 'User is allowed to manage and edit other users'; // optional
-        $admin->save();
+        $admin = new User();
+        $admin->email = "admin@indie-corp.com";
+        $admin->fullname = "Administrator";
+        $admin->nickname = "Admin";
+        $admin->username = "admin";
+        $admin->password = bcrypt('admin12345');
+        $admin->makeAdmin();
 
-        $staff = new Role();
-        $staff->name         = 'staff';
-        $staff->display_name = 'User Staff'; // optional
-        $staff->description  =  'User is allowed to manage and upload photos'; // optional
-        $staff->save();
+        $staff = new User();
+        $staff->email = "staff@indie-corp.com";
+        $staff->fullname = "Staff";
+        $staff->nickname = "Staff";
+        $staff->username = "staff";
+        $staff->password = bcrypt('staff12345');
+        $staff->makeStaff();
 
-        $client = new Role();
-        $client->name         = 'client';
-        $client->display_name = 'User Client'; // optional
-        $client->description  = 'User is allowed to view and comment photos'; // optional
-        $client->save();
+        $client = new User();
+        $client->email = "client@indie-corp.com";
+        $client->fullname = "Client";
+        $client->nickname = "Client";
+        $client->username = "client";
+        $client->password = bcrypt('client12345');
+        $client->makeClient();
 
-        $user = new User();
-        $user->email = "admin@admin.com";
-        $user->username = "admin";
-        $user->password = bcrypt('admin12345');
-        $user->makeAdmin();
-        //$user->attachRole($admin);
-
-        $client1 = new User();
-        $client1->email = "user1@test.com";
-        $client1->username = "user1";
-        $client1->password = bcrypt('user12345');
-        $client1->makeClient();
-//        $client1->attachRole($client);
 
         $project = new Project();
-        $project->user_id = $user->id;
+        $project->user_id = $admin->id;
         $project->name = "The Project";
         $project->description = "About this project";
+        $project->start = \Carbon\Carbon::now()->toDateString();
+        $project->deadline = \Carbon\Carbon::now()->addMonth(1)->toDateString();
         $project->save();
 
-        $user->projects()->attach($project->id);
-        $client1->projects()->attach($project->id);
+//        $admin->projects()->attach($project->id);
+        $staff->projects()->attach($project->id);
+        $client->projects()->attach($project->id);
 
 
     }

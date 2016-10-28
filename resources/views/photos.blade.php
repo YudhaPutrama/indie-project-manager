@@ -66,12 +66,15 @@
 
                 var formData = new FormData();
                 formData.append('message',text);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname+'/comments',
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -83,8 +86,11 @@
                         console.log(data);
                     },
                     error: function (data) {
-                        toastr['error']("Can't connect to server", "Post Comment");;
+                        toastr['error']("Can't connect to server", "Post Comment");
                         //
+                    },
+                    complete: function(data){
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,
@@ -112,12 +118,16 @@
             $("form#editPhoto").submit(function() {
 
                 var formData = new FormData($(this)[0]);
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
 
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -133,6 +143,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Edit Photo")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Photo;
+use App\Post;
 use App\Project;
 use App\Schedule;
 use App\User;
@@ -34,6 +35,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('project', Project::class);
         Route::model('photo', Photo::class);
         Route::model('event', Schedule::class);
+        Route::model('blog', Post::class);
     }
 
     /**

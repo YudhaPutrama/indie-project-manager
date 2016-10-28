@@ -21,6 +21,7 @@ class FirstSetupTables extends Migration
             $table->string('email')->unique();
             $table->string('username',20)->unique();
             $table->string('password');
+            $table->enum('role',['admin','staff','client']);
 
             //userdata
             $table->string('fullname')->default('');
@@ -55,7 +56,6 @@ class FirstSetupTables extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('picture')->default('default.jpg');
-            $table->boolean('scheduleAccepted');
             $table->date('start');
             $table->date('deadline');
             $table->softDeletes();
@@ -73,14 +73,12 @@ class FirstSetupTables extends Migration
         Schema::create('favorite_projects', function (Blueprint $table){
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('project_id');
-
             $table->primary('user_id','project_id');
         });
 
         Schema::create('favorite_photos', function (Blueprint $table){
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('photos_id');
-
             $table->primary('user_id','project_id');
         });
 
@@ -167,5 +165,7 @@ class FirstSetupTables extends Migration
         Schema::drop('photos');
         Schema::drop('comments');
         Schema::drop('schedules');
+        Schema::drop('favorite_projects');
+        Schema::drop('favorite_photos');
     }
 }

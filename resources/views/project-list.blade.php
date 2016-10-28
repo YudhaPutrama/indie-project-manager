@@ -36,22 +36,25 @@
             Index.initCalendar(); // init index page's custom scripts
             Index.initCharts(); // init index page's custom scripts
             Index.initChat();
-            Index.initMiniCharts();
             FormValidation.init();
 
             $("form#newProject").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
                             toastr['success']("Project successfully created", "Add Project");
+                            window.location.reload();
                         } else {
                             toastr['error']("Something error", "Add Project")
                         }
@@ -59,6 +62,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Project")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,
@@ -186,7 +192,7 @@
         <ul class="page-breadcrumb">
             <li>
                 <i class="fa fa-home"></i>
-                <a href="{{ url('/home') }}">Home</a>
+                <a href="{{ url('/') }}">Home</a>
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>

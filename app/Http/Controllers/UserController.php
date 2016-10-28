@@ -170,7 +170,7 @@ class UserController extends Controller
     }
 
     public function checkUsername(Request $request){
-        if(Auth::user()->hasRole('admin')){
+        if(Auth::user()->isClient()){
             if (User::where('username',$request->get('username')))
             return Response::json(['status'=>'success']);
         }

@@ -15,40 +15,43 @@ Route::get('/', 'WelcomeController@index');
 
 Auth::routes();
 
-
 Route::group(['middleware'=>['auth']], function (){
-
-
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-    Route::get('/profile', 'UserController@showProfile')->name('profile');
-    //Route::get('/profile/edit', 'UserController@showProfileEdit')->name('profile-edit');
-    Route::post('/profile', 'UserController@updateProfile');
-    Route::get('/projects', 'ProjectController@showProject')->name('project');
-    Route::post('/projects', 'ProjectController@newProject')->name('project-add');
-    Route::get('/projects/{project}', 'ProjectController@showProjectDetail')->name('project-detail');
-    Route::post('/projects/{project}', 'ProjectController@updateProject');
 
-    Route::post('/projects/{project}/event', 'ScheduleController@postSchedule')->name('postEvent');
-    Route::post('/projects/{project}/event/{event}/approve', 'ScheduleController@accept');
-    Route::post('/projects/{project}/event/{event}/done', 'ScheduleController@done');
-    Route::post('/projects/{project}/event/{event}/edit', 'ScheduleController@edit');
-    Route::post('/projects/{project}/event/{event}/remove', 'ScheduleController@remove');
-    Route::get('/projects/{project}/calendar','ScheduleController@projectSchedule')->name('projectCalendar');
-    Route::get('/projects/{project}/calendar/data','ScheduleController@dataSchedule');
+    Route::group(['prefix'=>'profile'], function (){
+        Route::get('/', 'UserController@showProfile')->name('profile');
+        Route::post('/', 'UserController@updateProfile');
+    });
 
-    Route::get('/projects/{project}/upload', 'ProjectController@showUpload')->name('project-upload');
-    Route::post('/projects/{project}/upload', 'ProjectController@uploadPhotos');
+    Route::group(['prefix'=>'projects'], function (){
+        Route::get('/', 'ProjectController@showProject')->name('project');
+        Route::post('/', 'ProjectController@newProject')->name('project-add');
+        Route::get('/{project}', 'ProjectController@showProjectDetail')->name('project-detail');
+        Route::post('/{project}', 'ProjectController@updateProject');
 
-    //Route::post('/projects/{project}/schedule','ScheduleController@postSchedule');
-    Route::get('/projects/{project}/members','ProjectController@listMember');
-    Route::post('/projects/{project}/members','ProjectController@addMember');
-    Route::get('/projects/{project}/members/{user}/remove','ProjectController@removeMember');
+        Route::post('/{project}/event', 'ScheduleController@postSchedule')->name('postEvent');
+        Route::post('/{project}/event/{event}/approve', 'ScheduleController@accept');
+        Route::post('/{project}/event/{event}/done', 'ScheduleController@done');
+        Route::post('/{project}/event/{event}/edit', 'ScheduleController@edit');
+        Route::post('/{project}/event/{event}/remove', 'ScheduleController@remove');
+        Route::get('/{project}/calendar','ScheduleController@projectSchedule')->name('projectCalendar');
+        Route::get('/{project}/calendar/data','ScheduleController@dataSchedule');
+
+        Route::get('/{project}/upload', 'ProjectController@showUpload')->name('project-upload');
+        Route::post('/{project}/upload', 'ProjectController@uploadPhotos');
+
+        //Route::post('/projects/{project}/schedule','ScheduleController@postSchedule');
+        Route::get('/{project}/members','ProjectController@listMember');
+        Route::post('/{project}/members','ProjectController@addMember');
+        Route::get('/{project}/members/{user}/remove','ProjectController@removeMember');
 
 
-    Route::get('/projects/{project}/{photo}', 'PhotoController@showPhoto')->name('photo');
-    Route::post('/projects/{project}/{photo}', 'PhotoController@updatePhoto');
-    Route::get('/projects/{project}/{photo}/comments', 'PhotoController@listComments');
-    Route::post('/projects/{project}/{photo}/comments', 'PhotoController@postComment');
+        Route::get('/{project}/{photo}', 'PhotoController@showPhoto')->name('photo');
+        Route::post('/{project}/{photo}', 'PhotoController@updatePhoto');
+        Route::get('/{project}/{photo}/comments', 'PhotoController@listComments');
+        Route::post('/{project}/{photo}/comments', 'PhotoController@postComment');
+
+    });
 
     //for admin or staff
     Route::get('/schedule', 'ScheduleController@listSchedule');
@@ -58,5 +61,15 @@ Route::group(['middleware'=>['auth']], function (){
     Route::post('/users/{user}/remove','UserController@removeUser');
     Route::post('/users/{user}/resetPassword','UserController@resetPassword');
     Route::post('/users/check', 'UserController@checkUsername')->name('checkUsername');
-    //for client
+
+    Route::get('/blog','BlogController@index')->name('blogs');
+    Route::get('/blog/tags','BlogController@listTags');
+    Route::get('/blog/categories', 'BlogController@listCategories');
+    Route::get('/blog/tags/{tag}')->name('blog-tag-item');
+    Route::get('/blog/categories/{category}')->name('blog-category-item');
+//    Route::get('/blog/new','BlogController@create');
+    Route::post('blog','BlogController@store')->name('newPost');
+    Route::get('/blog/{post}','BlogController@show')->name('blog-view');
+    Route::put('/blog/{post}','BlogController@update');
+    Route::delete('/blog/{post}','BlogController@destroy');
 });

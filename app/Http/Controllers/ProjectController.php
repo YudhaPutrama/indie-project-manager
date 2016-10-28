@@ -15,13 +15,8 @@ use Intervention\Image\ImageManager;
 
 class ProjectController extends Controller
 {
-    /**
-     * @var \App\User
-     */
-    private $user;
 
     public function newProject(Request $request){
-        $this->user = Auth::user();
         $validator = Validator::make($request->all(),[
             'name'=>'required',
             'description'=>'required',
@@ -51,7 +46,6 @@ class ProjectController extends Controller
     }
 
     public function updateProject(Project $project, Request $request){
-        $this->user = Auth::user();
         $validator = Validator::make($request->all(),[
             'name'=>'required',
             'description'=>'required',
@@ -84,7 +78,7 @@ class ProjectController extends Controller
 
     public function listProject(){
 
-        if (Auth::user()->hasRole('admin')){
+        if (Auth::user()->isAdmin()){
             $projects = Project::with('members')->all();
         } else {
             $projects = $this->user->projects;
@@ -98,10 +92,10 @@ class ProjectController extends Controller
 
     public function showProject(){
         $user = Auth::user();
-        if (Auth::user()->hasRole('admin')){
+        if (Auth::user()->isAdmin()){
             $projects = Project::all();
             return view('project-list',['user'=>$user,'projects'=>$projects]);
-        } elseif (Auth::user()->hasRole('staff')) {
+        } elseif (Auth::user()->isStaff()) {
             $projects = Auth::user()->projects;
             return view('project-list',['user'=>$user,'projects'=>$projects]);
         } else {
@@ -116,7 +110,7 @@ class ProjectController extends Controller
 
 
     public function showProjectDetail(Project $project){
-//        if(Auth::user()->hasRole('client')){
+//        if(Auth::user()->isClient()){
 //            return redirect('/projects')->with('error',"You does'nt have an access");
 //        }
         $this->authorize('view', $project);
@@ -207,11 +201,16 @@ class ProjectController extends Controller
     }
 
     public function removeMember(Project $project, User $user){
-        $project->members()->detach($user->id);
-        if($user->delete()){
-            return redirect()->back()->with('message','User have been removed');
+        if (!$project->members()->detach($user->id)){
+            return redirect()->back()->with('message','Error remove user');
         }
-        return redirect()->back()->with('message','Error remove user');
+        if ($user->isClient()){
+            if($user->delete()){
+                return redirect()->back()->with('message','User have been removed and deleted');
+            }
+        }
+        return redirect()->back()->with('message','Success remove member');
+
     }
 
     public function showMembers(){

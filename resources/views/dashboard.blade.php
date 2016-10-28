@@ -41,9 +41,9 @@
                     Comments
                 </div>
             </div>
-            <a class="more" href="#">
-                View more <i class="m-icon-swapright m-icon-white"></i>
-            </a>
+            {{--<a class="more" href="#">--}}
+                {{--View more <i class="m-icon-swapright m-icon-white"></i>--}}
+            {{--</a>--}}
         </div>
     </div>
     <div class="col-md-4 col-sm-12">
@@ -59,9 +59,9 @@
                     Photos
                 </div>
             </div>
-            <a class="more" href="#">
-                View more <i class="m-icon-swapright m-icon-white"></i>
-            </a>
+            {{--<a class="more" href="#">--}}
+                {{--View more <i class="m-icon-swapright m-icon-white"></i>--}}
+            {{--</a>--}}
         </div>
     </div>
     <div class="col-md-4 col-sm-12">
@@ -77,9 +77,9 @@
                     Projects
                 </div>
             </div>
-            <a class="more" href="#">
-                View more <i class="m-icon-swapright m-icon-white"></i>
-            </a>
+            {{--<a class="more" href="#">--}}
+                {{--View more <i class="m-icon-swapright m-icon-white"></i>--}}
+            {{--</a>--}}
         </div>
     </div>
 </div>
@@ -119,12 +119,12 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="scroller-footer">
-                    <div class="btn-arrow-link pull-right">
-                        <a href="#">See All Records</a>
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </div>
+                {{--<div class="scroller-footer">--}}
+                    {{--<div class="btn-arrow-link pull-right">--}}
+                        {{--<a href="#">See All Records</a>--}}
+                        {{--<i class="icon-arrow-right"></i>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -161,12 +161,12 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="scroller-footer">
-                    <div class="btn-arrow-link pull-right">
-                        <a href="#">See All Records</a>
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </div>
+                {{--<div class="scroller-footer">--}}
+                    {{--<div class="btn-arrow-link pull-right">--}}
+                        {{--<a href="#">See All Records</a>--}}
+                        {{--<i class="icon-arrow-right"></i>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -203,12 +203,12 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="scroller-footer">
-                    <div class="btn-arrow-link pull-right">
-                        <a href="#">See All Records</a>
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </div>
+                {{--<div class="scroller-footer">--}}
+                    {{--<div class="btn-arrow-link pull-right">--}}
+                        {{--<a href="#">See All Records</a>--}}
+                        {{--<i class="icon-arrow-right"></i>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>

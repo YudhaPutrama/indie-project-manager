@@ -23,16 +23,21 @@
             $("form#uploadAvatar").submit(function() {
 
                 var formData = new FormData($(this)[0]);
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
 
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
                             toastr['success']("Avatar upload success", "Avatar Upload");
+                            window.location.reload();
                         } else {
                             toastr['error']("Something error", "Avatar Upload")
                         }
@@ -40,6 +45,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Avatar Upload")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,
@@ -50,12 +58,15 @@
             $("form#biodata").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -68,6 +79,9 @@
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Biodata Update")
                     },
+                    complete: function (data){
+                        Metronic.unblockUI(_this)
+                    },
                     cache: false,
                     contentType: false,
                     processData: false
@@ -77,12 +91,15 @@
             $("form#changePassword").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -95,6 +112,9 @@
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Change Password");
                         console.log(data);
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,

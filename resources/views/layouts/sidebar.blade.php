@@ -1,4 +1,4 @@
-@if(Auth::user()->hasRole('admin')||Auth::user()->hasRole('staff'))
+@if(Auth::user()->isAdmin()||Auth::user()->isStaff())
 <div class="page-sidebar navbar-collapse collapse">
     <!-- BEGIN SIDEBAR MENU -->
     <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -28,7 +28,13 @@
                 <span class="title">Schedule</span>
             </a>
         </li>
-        @if(Auth::user()->hasRole('admin'))
+        <li class="{{ Route::is('blogs')?'active open':'' }}">
+            <a href="{{ url('/blog') }}">
+                <i class="icon-speech"></i>
+                <span class="title">Blog</span>
+            </a>
+        </li>
+        @if(Auth::user()->isAdmin())
             <li class="{{ Route::is('users')?'active open':'' }}">
                 <a href="{{ url('/users') }}">
                     <i class="icon-users"></i>
@@ -36,12 +42,13 @@
                 </a>
             </li>
         @endif
-        @if(isset($projects))
-        <li class="heading">
-            <h3 class="uppercase">Featured Project</h3>
-        </li>
 
         @foreach(Auth::user()->favorite_projects as $project)
+            @if($loop->first)
+                <li class="heading">
+                    <h3 class="uppercase">Favorite Projects</h3>
+                </li>
+            @endif
         <li>
             <a href="#">
                 <i class="icon-book-open"></i>
@@ -77,7 +84,6 @@
             </ul>
         </li>
         @endforeach
-        @endif
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
@@ -101,6 +107,12 @@
                 <a href="{{ url('/schedule') }}">
                     <i class="icon-calendar"></i>
                     <span class="title">Schedule</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/blog') }}">
+                    <i class="icon-speech"></i>
+                    <span class="title">Blog</span>
                 </a>
             </li>
         </ul>

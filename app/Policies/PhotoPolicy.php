@@ -17,7 +17,7 @@ class PhotoPolicy
      * @return bool
      */
     public function before(User $user, $ability){
-        if ($user->hasRole('admin')){
+        if ($user->isAdmin()){
             return true;
         }
     }
@@ -42,7 +42,7 @@ class PhotoPolicy
      */
     public function create(User $user)
     {
-        if ($user->hasRole('staff')){
+        if ($user->isStaff()){
             return true;
         }
         return false;
@@ -57,7 +57,7 @@ class PhotoPolicy
      */
     public function update(User $user, Photo $photo)
     {
-        if ($user->hasRole('staff') && !$photo->project->members->where('id',$user->id)->isEmpty()){
+        if ($user->isStaff() && !$photo->project->members->where('id',$user->id)->isEmpty()){
             return true;
         }
         return false;
@@ -72,9 +72,6 @@ class PhotoPolicy
      */
     public function delete(User $user, Photo $photo)
     {
-        if ($user->hasRole(['admin','staff'])){
-            return true;
-        }
-        return false;
+        return $user->isAdmin()||$user->isStaff();
     }
 }

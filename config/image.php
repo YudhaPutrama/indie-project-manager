@@ -23,7 +23,8 @@ return array(
             'picture' => '/uploads/projects/pictures/'
         ],
 
-        'avatar' => '/uploads/avatar/'
+        'avatar' => '/uploads/avatar/',
+        'post' => '/uploads/blog/'
     ]
 
 );

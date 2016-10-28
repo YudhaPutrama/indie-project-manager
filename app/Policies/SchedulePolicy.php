@@ -16,7 +16,7 @@ class SchedulePolicy
      * @return bool
      */
     public function before(User $user, $ability){
-        if ($user->hasRole('admin')){
+        if ($user->isAdmin()){
             return true;
         }
     }
@@ -65,7 +65,7 @@ class SchedulePolicy
      */
     public function delete(User $user, Schedule $schedule)
     {
-        if ($user->hasRole('staff')){
+        if ($user->isStaff()){
             $project = $schedule->project;
             if (!$project->members->where('id', $user->id).isEmpty()){
                 return true;

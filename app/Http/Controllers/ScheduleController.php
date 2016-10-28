@@ -21,7 +21,7 @@ class ScheduleController extends Controller
     }
 
     public function listSchedule(){
-        if (Auth::user()->hasRole('client')){
+        if (Auth::user()->isClient()){
             $project=Auth::user()->projects()->first();
 
             return redirect()->route('projectCalendar', ['project'=>$project]);

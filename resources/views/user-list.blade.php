@@ -26,19 +26,20 @@
             Layout.init(); // init layout
             Index.init();
             Index.initCalendar(); // init index page's custom scripts
-            Index.initCharts(); // init index page's custom scripts
             Index.initChat();
-            Index.initMiniCharts();
 
             $("form#addMember").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -51,6 +52,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add User")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,

@@ -49,12 +49,15 @@
             $("form#addMember").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -68,6 +71,9 @@
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Member")
                     },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
+                    },
                     cache: false,
                     contentType: false,
                     processData: false
@@ -78,12 +84,15 @@
             $("form#fromList").submit(function() {
 
                 var formData = new FormData($(this)[0]);
-
+                var _this = $(this);
+                Metronic.blockUI({
+                    target: _this,
+                    animate: true
+                });
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
                     data: formData,
-                    async: false,
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
@@ -96,6 +105,9 @@
                     },
                     error: function (data) {
                         toastr['error']("Can't connect to server", "Add Member")
+                    },
+                    complete: function (data) {
+                        Metronic.unblockUI(_this)
                     },
                     cache: false,
                     contentType: false,
@@ -251,7 +263,7 @@
         <div class="col-md-12">
             @if(session('message'))
                 <div class="note note-success">
-                    <h4 class="block">Message</h4>
+                    {{--<h4 class="block">Message</h4>--}}
                     <p>{{ session('message') }}</p>
                 </div>
             @endif

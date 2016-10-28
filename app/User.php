@@ -10,8 +10,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait;
-    //use SoftDeletes;
+    //use EntrustUserTrait;
+    use SoftDeletes;
 
 
     /**
@@ -47,27 +47,30 @@ class User extends Authenticatable
 
 
     public function makeClient(array $options = []){
-        if (parent::save($options)){
-            $this->roles()->attach(3);
-            return true;
-        }
-        return false;
+        $this->role = "client";
+        parent::save($options);
     }
 
     public function makeStaff(array $options = []){
-        if (parent::save($options)){
-            $this->roles()->attach(2);
-            return true;
-        }
-        return false;
+        $this->role = "staff";
+        parent::save($options);
     }
 
     public function makeAdmin(array $options = []){
-        if (parent::save($options)){
-            $this->roles()->attach(1);
-            return true;
-        }
-        return false;
+        $this->role = "admin";
+        parent::save($options);
     }
 
+
+    public function isAdmin(){
+        return $this->role == "admin";
+    }
+
+    public function isStaff(){
+        return $this->role == "staff";
+    }
+
+    public function isClient(){
+        return $this->role == "client";
+    }
 }
