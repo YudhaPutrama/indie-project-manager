@@ -24,7 +24,8 @@ return array(
         ],
 
         'avatar' => '/uploads/avatar/',
-        'post' => '/uploads/blog/'
+        'post' => '/uploads/blog/',
+        'postThumb' => '/uploads/blog/thumb/',
     ]
 
 );

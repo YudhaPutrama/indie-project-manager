@@ -38,7 +38,7 @@
             Index.initMiniCharts();
             FormValidation.init();
 
-            $("form#newProject").submit(function() {
+            $("form#editPost").submit(function() {
 
                 var formData = new FormData($(this)[0]);
                 var _this = $(this);
@@ -53,14 +53,16 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
-                            toastr['success']("Project successfully created", "Add Project");
+                            toastr['success']("Post updated", "Update Project");
+                            window.location.reload();
                         } else {
-                            toastr['error']("Something error", "Add Project")
+                            toastr['error']("Something error", "Update Project")
                         }
-                        console.log(data);
+//                        console.log(data);
+
                     },
                     error: function (data) {
-                        toastr['error']("Can't connect to server", "Add Project")
+                        toastr['error']("Can't connect to server", "Update Project")
                     },
                     complete: function (data) {
                         Metronic.unblockUI(_this)
@@ -71,6 +73,7 @@
                 });
                 return false;
             });
+
 
             toastr.options = {
                 "closeButton": true,
@@ -91,27 +94,90 @@
 @endsection
 
 @section('content')
+    @can('update', $post)
         <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-        <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editPost" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Modal title</h4>
-                    </div>
-                    <div class="modal-body">
-                        Widget settings form goes here
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn blue">Save changes</button>
-                        <button type="button" class="btn default" data-dismiss="modal">Close</button>
-                    </div>
+                    <form role="form" method="post" id="editPost" class="form-horizontal">
+                        <input type="hidden" name="action" value="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Edit Post</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- BEGIN FORM-->
+                            <div class="form-body">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    You have some form errors. Please check below.
+                                </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    Your form validation is successful!
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Title <span class="required">* </span></label>
+                                    <div class="col-md-8">
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" class="form-control" name="title" value="{{ $post['title'] }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Summary<span class="required">* </span></label>
+                                    <div class="col-md-8">
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <textarea class="form-control" rows="2" name="summary">{{ $post['summary'] }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Content<span class="required">* </span></label>
+                                    <div class="col-md-8">
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <textarea class="form-control" rows="4" name="body">{{ $post['body'] }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Post Picture</label>
+                                    <div class="col-md-9">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                                            <div>
+                                            <span class="btn default btn-file">
+                                            <span class="fileinput-new">
+                                            Select image </span>
+                                            <span class="fileinput-exists">
+                                            Change </span>
+                                            <input type="file" name="image">
+                                            </span>
+                                                <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">
+                                                    Remove </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- END FORM-->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn green">Update</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+    @endcan
         <!-- BEGIN PAGE HEADER-->
         <div class="page-bar">
             <ul class="page-breadcrumb">
@@ -128,8 +194,11 @@
             </ul>
             <div class="page-toolbar">
                 <div class="btn-group pull-right">
-                    <a href="#" class="btn green">
+                    <a href="#editPost" class="btn green" data-toggle="modal">
                         Edit <i class="icon-pencil"></i>
+                    </a>
+                    <a href="{{ route('removePost',['post'=>$post]) }}" class="btn red" id="delete">
+                        Remove <i class="icon-trash"></i>
                     </a>
                 </div>
             </div>
@@ -152,7 +221,7 @@
                                     {{--<span class="caption-helper">subtitle</span>--}}
                                 </div>
                                 <div class="actions inline">
-                                    <i class="fa fa-calendar"></i> {{ $post['created_at'] }}
+                                    <a class="btn btn-circle btn-default"><i class="fa fa-calendar"></i> {{ (new \Carbon\Carbon($post['created_at']))->diffForHumans() }} </a>
 
                                     <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#" data-original-title="" title=""></a>
                                 </div>

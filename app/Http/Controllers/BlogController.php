@@ -64,7 +64,7 @@ class BlogController extends Controller
                 $image = $request->file('image');
                 $filename = Auth::user()->id.'-'.time().'.'.$image->getClientOriginalExtension();
                 Image::make($image)->save(public_path(Config::get('image.dir.post')).$filename);
-                Image::make($image)->fit(230,130)->save(public_path(Config::get('image.dir.post')).'thumb/'.$filename);
+                Image::make($image)->fit(230,130)->save(public_path(Config::get('image.dir.postThumb')).$filename);
                 $post = new Post();
                 $post->user_id = Auth::user()->id;
                 $post->title = $data['title'];
@@ -155,21 +155,39 @@ class BlogController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'title' => 'required',
-            'image' => 'required|image',
+            'image' => 'image',
             'body' => 'required',
             'tags' => '',
             'category' => ''
         ]);
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'title' => 'required',
+            'summary' => 'required',
+            'body' => 'required',
+            'image' => 'image',
+//                'tags.*.slug' => 'required|exist:tags,slug',
+//                'category' => 'required|exist:categories,slug'
+        ]);
         if ($validator->fails())
             return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
         try{
-            $post->title = $request->get('title');
-            $post->image = $request->get('image');
-            $post->body = $request->get('body');
-            foreach ($request->get('tags') as $tag){
-                $post->tags->attach($tag);
+            $post->user_id = Auth::user()->id;
+            $post->title = $data['title'];
+            $post->summary = $data['summary'];
+            $post->body = $data['body'];
+            if ($request->hasFile('image')){
+                $image = $request->file('image');
+                $filename = Auth::user()->id.'-'.time().'.'.$image->getClientOriginalExtension();
+                Image::make($image)->save(public_path(Config::get('image.dir.post')).$filename);
+                Image::make($image)->fit(230,130)->save(public_path(Config::get('image.dir.postThumb')).$filename);
+                $post->image = $filename;
             }
-            $post->category = $request->get('category');
+
+//                foreach ($data['tags'] as $tag){
+//                    $post->tags->attach($tag);
+//                }
+//                $post->category = $data['category'];
             $post->save();
         } catch (Exception $ex){
             return Response::json(['status'=>'error']);
@@ -187,9 +205,9 @@ class BlogController extends Controller
      */
     public function destroy(Post $post)
     {
-        $this->authorize('destroy', $post);
+        $this->authorize('delete', $post);
         if ($post->delete())
-            return Response::json(['status'=>'success']);
-        return Response::json(['status'=>'error']);
+            return redirect()->route('blogs');
+        return redirect()->back()->with('message','Error delete post');
     }
 }

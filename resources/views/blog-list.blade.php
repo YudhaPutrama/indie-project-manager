@@ -54,7 +54,7 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.status=='success'){
-                            toastr['success']("Project successfully created", "Add Post");
+                            toastr['success']("Post successfully created", "Add Post");
                         } else {
                             if (data.detail!=null)
                                 toastr['error'](data.detail, "Add Post");
@@ -234,7 +234,7 @@
             <div class="portlet-body">
                 <div class="row">
                     <div class="col-md-4 blog-img blog-tag-data">
-                        <img src="{{ Config::get('image.dir.post').(($post->image!=null)?$post->image:"default.jpg") }}" alt="" class="img-responsive">
+                        <img src="{{ Config::get('image.dir.postThumb').(($post->image!=null)?$post->image:"default.jpg") }}" alt="" class="img-responsive">
                     </div>
                     <div class="col-md-8 blog-article">
                         <ul class="list-inline blog-tags">

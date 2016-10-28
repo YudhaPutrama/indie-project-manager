@@ -71,6 +71,6 @@ Route::group(['middleware'=>['auth']], function (){
 //    Route::get('/blog/new','BlogController@create');
     Route::post('blog','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');
-    Route::put('/blog/{post}','BlogController@update');
-    Route::delete('/blog/{post}','BlogController@destroy');
+    Route::post('/blog/{post}','BlogController@update');
+    Route::get('/blog/{post}/remove','BlogController@destroy')->name('removePost');
 });
