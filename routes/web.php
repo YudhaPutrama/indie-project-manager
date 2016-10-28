@@ -28,6 +28,7 @@ Route::group(['middleware'=>['auth']], function (){
         Route::post('/', 'ProjectController@newProject')->name('project-add');
         Route::get('/{project}', 'ProjectController@showProjectDetail')->name('project-detail');
         Route::post('/{project}', 'ProjectController@updateProject');
+        Route::get('/{project}/remove', 'ProjectController@removeProject');
 
         Route::post('/{project}/event', 'ScheduleController@postSchedule')->name('postEvent');
         Route::post('/{project}/event/{event}/approve', 'ScheduleController@accept');

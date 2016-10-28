@@ -78,6 +78,10 @@
         </li>
         <li>
             <a href="{{ url('/projects') }}">Project</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ route('project-detail',['project'=>$project]) }}">Detail</a>
         </li>
     </ul>
 </div>

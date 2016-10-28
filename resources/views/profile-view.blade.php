@@ -141,7 +141,7 @@
             <div class="portlet light">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="{{ "/uploads/avatar/".(($user['avatar']!=null)?$user['avatar']->avatar:"default.jpg") }}" class="img-responsive" alt="">
+                    <img src="{{ "/uploads/avatar/".(($user['avatar']!=null)?$user['avatar']:"default.jpg") }}" class="img-responsive" alt="">
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->

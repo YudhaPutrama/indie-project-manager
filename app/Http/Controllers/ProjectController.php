@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use Config;
 use Image;
+use Intervention\Image\Exception\NotWritableException;
 use Response;
 use Validator;
 use App\Project;
@@ -81,7 +82,7 @@ class ProjectController extends Controller
         if (Auth::user()->isAdmin()){
             $projects = Project::with('members')->all();
         } else {
-            $projects = $this->user->projects;
+            $projects = Auth::user()->projects;
         }
         return view('project-list',$projects);
     }
@@ -123,7 +124,7 @@ class ProjectController extends Controller
     }
 
     public function showUpload(Project $project){
-        return view('upload');
+        return view('upload',['project'=>$project]);
     }
 
     public function uploadPhotos(Request $request, Project $project){
@@ -137,14 +138,17 @@ class ProjectController extends Controller
             $filename_full = $project->id.'_'.$user->id.'_'.time().'_full'.'.'.$file->getClientOriginalExtension();
             $filename_icon = $project->id.'_'.$user->id.'_'.time().'_icon'.'.'.$file->getClientOriginalExtension();
 
-            //save full size
-            $image_full = Image::make($file)->save(public_path(Config::get('image.dir.projects.photos')).$filename_full);
+            try {
+                //save full size
+                Image::make($file)->save(public_path(Config::get('image.dir.projects.photos')) . $filename_full);
 
-            //save icon size
-            $image_icon = Image::make($file)->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path(Config::get('image.dir.projects.photos')).$filename_icon);
-
+                //save icon size
+                Image::make($file)->resize(200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path(Config::get('image.dir.projects.photos')) . $filename_icon);
+            } catch (NotWritableException $ex){
+                return Response::json(['status'=>'error','detail'=>'Error when saving']);
+            }
             $photo = new Photo();
             $photo->user_id = Auth::user()->id;
             $photo->title = "Project Photo";
@@ -213,8 +217,12 @@ class ProjectController extends Controller
 
     }
 
-    public function showMembers(){
-
+    public function removeProject(Project $project){
+        $this->authorize('destroy',$project);
+        $project->members()->detach();
+        if ($project->delete())
+            return redirect()->route('project');
+        return redirect()->back();
     }
 
 }

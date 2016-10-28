@@ -425,12 +425,12 @@
                 </div>
                 @can('update', $project)
                 <div class="actions">
-
                     <a href="{{ Request::url().'/members' }}" class="btn btn-circle btn-default">
                         <i class="fa fa-users"></i> Members </a>
-
                     <a href="#edit-project" data-toggle="modal" role="button" class="btn btn-circle btn-default">
                         <i class="fa fa-pencil"></i> Edit Project </a>
+                    <a href="{{ Request::url().'/remove' }}" data-toggle="modal" role="button" class="btn btn-circle red">
+                        <i class="fa fa-trash"></i> Remove Project </a>
                 </div>
                 @endcan
             </div>
