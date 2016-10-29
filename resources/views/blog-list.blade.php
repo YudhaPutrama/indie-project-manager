@@ -101,10 +101,10 @@
 @section('content')
     @can('create', \App\Post::class)
 <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-<div class="modal fade" id="newPost" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="newPost" tabindex="posts-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" method="post" id="newProject" class="form-horizontal">
+            <form role="form" method="post" id="newPost" class="form-horizontal">
                 <input type="hidden" name="action" value="post">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -168,26 +168,65 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tags" class="control-label col-md-3">Post Picture</label>
+                            <label for="tags" class="control-label col-md-3">Tags</label>
                             <div class="col-md-8">
                                 <div class="input-group select2-bootstrap-append">
-                                    <select id="tags" class="form-control select2" multiple>
-                                        <option value="A">A</option>
+                                    <select id="tags" class="form-control select2" multiple name="tags">
+                                        @foreach(\App\Tag::all() as $tag)
+                                        <option value="{{ $tag['slug'] }}">{{ $tag['name'] }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" data-select2-open="multi-append">
-                                                    <span class="glyphicon glyphicon-search"></span>
-                                                </button>
-                                            </span>
+                                        <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="category" class="control-label col-md-3">Category</label>
                             <div class="col-md-8">
-                                <label for="category" class="control-label">Category</label>
-                                <select id="category" class="form-control select2">
-                                    <option></option>
+                                <select id="category" class="form-control select2" name="category">
+                                    @foreach(\App\Category::all() as $category)
+                                        <option value="{{ $category['slug'] }}">{{ $category['name'] }}</option>
+                                    @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END FORM-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn green">Create</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="newSlug" tabindex="posts-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" method="post" id="slug" class="form-horizontal">
+                <input type="hidden" name="action" value="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">New Post</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Title <span class="required">* </span></label>
+                            <div class="col-md-8">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="title"/>
+                                </div>
                             </div>
                         </div>
 
