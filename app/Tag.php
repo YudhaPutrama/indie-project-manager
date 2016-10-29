@@ -14,6 +14,6 @@ class Tag extends Model
     protected $hidden = ['updated_at','created_at'];
 
     public function posts(){
-        return $this->belongsToMany('App\Post', 'post_tags');
+        return $this->belongsToMany('App\Post', 'post_tags', 'tag_slug', 'post_id');
     }
 }

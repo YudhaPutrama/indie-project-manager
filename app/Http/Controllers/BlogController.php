@@ -81,9 +81,15 @@ class BlogController extends Controller
             }
             return Response::json(['status'=>'success']);
         } else if ($action=="category"){
-            return $this->newCategory($request->all());
+            return $this->newCategory([
+                'name'=>$request->get('name'),
+                'slug'=>str_slug($request->get('name'))
+            ]);
         } else if ($action=="tag"){
-            return $this->newTag($request->all());
+            return $this->newTag([
+                'name'=>$request->get('name'),
+                'slug'=>str_slug($request->get('name'))
+            ]);
         } else {
             return Response::json(['status'=>'error', 'detail'=>'No action']);
         }
@@ -119,8 +125,12 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
-    private function newPost($data){
+    public function showTag(Tag $tag){
+        return view('blog-list', ['posts'=>$tag->posts()->paginate(8)]);
+    }
 
+    public function showCategory(Category $category){
+        return view('blog-list', ['posts'=>$category->posts()->paginate(8)]);
     }
 
     /**

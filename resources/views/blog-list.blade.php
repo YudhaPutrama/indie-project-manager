@@ -126,7 +126,7 @@
                             <div class="col-md-8">
                                 <div class="input-icon right">
                                     <i class="fa"></i>
-                                    <input type="text" class="form-control" name="title"/>
+                                    <input type="text" class="form-control" name="title" required/>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                             <div class="col-md-8">
                                 <div class="input-icon right">
                                     <i class="fa"></i>
-                                    <textarea class="form-control" rows="2" name="summary"></textarea>
+                                    <textarea class="form-control" rows="2" name="summary" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                             <div class="col-md-8">
                                 <div class="input-icon right">
                                     <i class="fa"></i>
-                                    <textarea id="body" class="form-control" rows="4" name="body"></textarea>
+                                    <textarea id="body" class="form-control" rows="4" name="body" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -154,15 +154,12 @@
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
                                     <div>
-                                            <span class="btn default btn-file">
-                                            <span class="fileinput-new">
-                                            Select image </span>
-                                            <span class="fileinput-exists">
-                                            Change </span>
-                                            <input type="file" name="image">
-                                            </span>
-                                        <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">
-                                            Remove </a>
+                                        <span class="btn default btn-file">
+                                            <span class="fileinput-new">Select image </span>
+                                            <span class="fileinput-exists">Change </span>
+                                            <input type="file" name="image" required>
+                                        </span>
+                                        <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove </a>
                                     </div>
                                 </div>
                             </div>
@@ -208,28 +205,59 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<div class="modal fade" id="newSlug" tabindex="posts-1" role="basic" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="newTag" tabindex="posts-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" method="post" id="slug" class="form-horizontal">
-                <input type="hidden" name="action" value="post">
+            <form role="form" method="post" id="tag" class="form-horizontal">
+                <input type="hidden" name="action" value="tag">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">New Post</h4>
+                    <h4 class="modal-title">New Tag</h4>
                 </div>
                 <div class="modal-body">
                     <!-- BEGIN FORM-->
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Title <span class="required">* </span></label>
+                            <label class="control-label col-md-3">Name <span class="required">* </span></label>
                             <div class="col-md-8">
                                 <div class="input-icon right">
-                                    <i class="fa"></i>
-                                    <input type="text" class="form-control" name="title"/>
+                                    <input type="text" class="form-control" name="name" required/>
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <!-- END FORM-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn green">Create</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="newCategory" tabindex="posts-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" method="post" id="category" class="form-horizontal">
+                <input type="hidden" name="action" value="category">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">New Category</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Name <span class="required">*</span></label>
+                            <div class="col-md-8">
+                                <div class="input-icon right">
+                                    <input type="text" class="form-control" name="name" required/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- END FORM-->
                 </div>
@@ -268,13 +296,12 @@
                 <li>
                     <a href="#newPost" data-toggle="modal" role="button">Post</a>
                 </li>
-                <li class="divider">
+                <li class="divider"></li>
+                <li>
+                    <a href="#newTag" data-toggle="modal" role="button">Tag</a>
                 </li>
                 <li>
-                    <a href="#" disabled="">Tag</a>
-                </li>
-                <li>
-                    <a href="#" disabled="">Category</a>
+                    <a href="#newCategory" data-toggle="modal" role="button">Category</a>
                 </li>
             </ul>
         </div>

@@ -6,7 +6,6 @@
 <script src="/vendor/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
 
 <script src="/vendor/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/vendor/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
 <script src="/vendor/jquery.sparkline.min.js" type="text/javascript"></script>
 
 <script src="/js/metronic.js" type="text/javascript"></script>

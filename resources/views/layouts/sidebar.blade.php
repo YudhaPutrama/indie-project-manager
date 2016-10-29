@@ -29,6 +29,12 @@
             </a>
         </li>
         <li class="{{ Route::is('blogs')?'active open':'' }}">
+            <a href="{{ url('/gallery') }}">
+                <i class="icon-book-open"></i>
+                <span class="title">Gallery</span>
+            </a>
+        </li>
+        <li class="{{ Route::is('blogs')?'active open':'' }}">
             <a href="{{ url('/blog') }}">
                 <i class="icon-speech"></i>
                 <span class="title">Blog</span>

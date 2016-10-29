@@ -66,8 +66,8 @@ Route::group(['middleware'=>['auth']], function (){
     Route::get('/blog','BlogController@index')->name('blogs');
     Route::get('/blog/tags','BlogController@listTags');
     Route::get('/blog/categories', 'BlogController@listCategories');
-    Route::get('/blog/tags/{tag}')->name('blog-tag-item');
-    Route::get('/blog/categories/{category}')->name('blog-category-item');
+    Route::get('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-item');
+    Route::get('/blog/categories/{category}', 'BlogController@showCategory')->name('blog-category-item');
 //    Route::get('/blog/new','BlogController@create');
     Route::post('blog','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');
