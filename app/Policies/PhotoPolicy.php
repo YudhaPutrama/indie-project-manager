@@ -48,6 +48,10 @@ class PhotoPolicy
         return false;
     }
 
+    public function accept(User $user, Photo $photo){
+        return $user->isClient()&&$user->projects()->first()->id==$photo->project->id;
+    }
+
     /**
      * Determine whether the user can update the photo.
      *
@@ -57,10 +61,8 @@ class PhotoPolicy
      */
     public function update(User $user, Photo $photo)
     {
-        if ($user->isStaff() && !$photo->project->members->where('id',$user->id)->isEmpty()){
-            return true;
-        }
-        return false;
+//        return $user->isStaff();
+        return $user->isStaff() && !$photo->project->members->where('id',$user->id)->isEmpty();
     }
 
     /**

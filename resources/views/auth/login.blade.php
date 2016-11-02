@@ -73,6 +73,11 @@
                 <input type="checkbox" name="remember" value="1"/>Remember </label>
             {{--<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>--}}
         </div>
+        <div class="create-account">
+            <p>
+                <a href="/register" class="uppercase">Create an account</a>
+            </p>
+        </div>
     </form>
     <!-- END LOGIN FORM -->
     {{--

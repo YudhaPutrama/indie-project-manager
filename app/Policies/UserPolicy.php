@@ -15,9 +15,7 @@ class UserPolicy
  * @return bool
  */
     public function before(User $user, $ability){
-        if ($user->isAdmin()){
-            return true;
-        }
+        return $user->isAdmin();
     }
 
     /**
@@ -29,7 +27,7 @@ class UserPolicy
      */
     public function view(User $user, User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -40,7 +38,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -52,7 +50,7 @@ class UserPolicy
      */
     public function update(User $user, User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -64,6 +62,6 @@ class UserPolicy
      */
     public function delete(User $user, User $user)
     {
-        //
+        return $user->isAdmin();
     }
 }

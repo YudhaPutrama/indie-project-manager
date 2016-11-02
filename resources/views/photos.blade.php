@@ -154,21 +154,21 @@
                 return false;
             });
 
-
         });
     </script>
 @endsection
 
 
 @section('content')
-    <div class="modal fade project" id="edit-photo" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    @can('update',$photo)
+    <div class="modal fade project" id="edit-detail" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form role="form" method="post" id="editPhoto" class="form-horizontal">
-                    <input type="hidden" name="update" value="1">
+                    <input type="hidden" name="action" value="detail">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Edit Project</h4>
+                        <h4 class="modal-title">Edit Detail</h4>
                     </div>
                     <div class="modal-body">
                         <!-- BEGIN FORM-->
@@ -237,7 +237,7 @@
                         <!-- END FORM-->
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn green">Submit</button>
+                        <button type="submit" class="btn green">Update</button>
                     </div>
                 </form>
             </div>
@@ -245,6 +245,54 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    <div class="modal fade project" id="update-photo" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form role="form" method="post" id="editPhoto" class="form-horizontal">
+                    <input type="hidden" name="action" value="revision">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Update Photo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- BEGIN FORM-->
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Project Picture</label>
+                                <div class="col-md-9">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
+                                            <img src="{{ Config::get('image.dir.projects.photos').$photo['url'] }}" alt="">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
+                                        </div>
+                                        <div>
+                                            <span class="btn default btn-file">
+                                            <span class="fileinput-new">
+                                            Select image </span>
+                                            <span class="fileinput-exists">
+                                            Change </span>
+                                            <input type="file" name="photo">
+                                            </span>
+                                            <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">
+                                                Remove </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END FORM-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn green">Update</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    @endcan
     <!-- BEGIN PAGE HEADER-->
     <div class="page-bar">
         <ul class="page-breadcrumb">
@@ -274,16 +322,29 @@
                     <div class="caption">
                         <i class="fa fa-photo"></i>Photo
                     </div>
-                    @can('update', $photo)
+
                     <div class="actions">
                         {{--<span href="{{ Request::url().'/upload' }}" class="btn btn-circle red-sunglo btn-file">--}}
                             {{--<i class="fa fa-plus"></i> Update <input type="file" name="avatar" accept="image/*" id="avatar"></span>--}}
-                        <a href="#edit-photo" class="btn btn-sm btn-circle btn-default" data-toggle="modal" role="button">
-                            <i class="fa fa-pencil"></i> Edit Photo </a>
+                        @if($photo->status=='done')
+                            <a class="btn btn-sm btn-circle blue" data-toggle="modal" role="button">
+                                <i class="fa fa-check"></i> Accepted </a>
+                        @else
+                            @can('update', $photo)
+                                <a href="#edit-detail" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
+                                    <i class="fa fa-pencil"></i> Edit Detail </a>
+                                <a href="#update-photo" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
+                                    <i class="fa fa-arrow-up"></i> Update Photo </a>
+                            @endcan
+                            @can('accept', $photo)
+                            <a href="{{ Request::url().'/accept' }}" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
+                                <i class="fa fa-check"></i> Accept Photo </a>
+                            @endcan
+                        @endif
                         <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#" data-original-title="" title="">
                         </a>
                     </div>
-                    @endcan
+
                 </div>
                 <div class="portlet-body">
                     <img src="{{ Config::get('image.dir.projects.photos').$photo['url'] }}" class="img-responsive" id="photo-canvas">

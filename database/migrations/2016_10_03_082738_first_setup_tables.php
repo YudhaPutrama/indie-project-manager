@@ -21,9 +21,8 @@ class FirstSetupTables extends Migration
             $table->string('email')->unique();
             $table->string('username',20)->unique();
             $table->string('password');
-            $table->enum('role',['admin','staff','client']);
+            $table->enum('role',['client','staff','admin']);
 
-            //userdata
             $table->string('fullname')->default('');
             $table->string('nickname')->default('');
             $table->string('phone')->default('');
@@ -82,19 +81,11 @@ class FirstSetupTables extends Migration
             $table->primary('user_id','project_id');
         });
 
-//        Schema::create('gallery', function (Blueprint $table){
-//            $table->increments('id');
-//            $table->string('title');
-//            $table->unsignedInteger('project_id');
-//
-//            $table->timestamps();
-//            $table->softDeletes();
-//        });
-
         Schema::create('photos', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('user_id'); //uploader id
             $table->unsignedInteger('project_id'); //album id
+            $table->unsignedInteger('successor')->nullable();
             $table->string('title');
             $table->string('location')->default('');
             $table->string('url');
@@ -105,16 +96,6 @@ class FirstSetupTables extends Migration
             $table->timestamps();
         });
 
-//        Schema::create('videos', function (Blueprint $table){
-//            $table->increments('id');
-//            $table->unsignedInteger('user_id');
-//            $table->unsignedInteger('album_id');
-//            $table->string('title');
-//            $table->string('url');
-//
-//            $table->timestamps();
-//        });
-
         Schema::create('comments', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('user_id');
@@ -124,10 +105,6 @@ class FirstSetupTables extends Migration
             $table->softDeletes();
         });
 
-//        title: 'Long Event',
-//                    start: new Date(y, m, d - 5),
-//                    end: new Date(y, m, d - 2),
-//                    backgroundColor: Metronic.getBrandColor('green')
         Schema::create('schedules', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('user_id');
@@ -141,13 +118,6 @@ class FirstSetupTables extends Migration
 
             $table->timestamps();
         });
-
-
-//        Schema::create('activities', function (Blueprint $table){
-//            $table->increments('id');
-//            $table->unsignedInteger('user_id');
-//            $table->
-//        });
 
     }
 

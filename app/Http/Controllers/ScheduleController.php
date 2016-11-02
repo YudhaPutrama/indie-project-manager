@@ -23,7 +23,8 @@ class ScheduleController extends Controller
     public function listSchedule(){
         if (Auth::user()->isClient()){
             $project=Auth::user()->projects()->first();
-
+            if ($project==null)
+                return view('no-project');
             return redirect()->route('projectCalendar', ['project'=>$project]);
         }
         $events = Schedule::all();

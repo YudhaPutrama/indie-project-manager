@@ -16,7 +16,7 @@
                 <span class="title">Profile</span>
             </a>
         </li>
-        <li class="{{ Route::is('projects')?'active open':'' }}">
+        <li class="{{ Route::is('project')?'active open':'' }}">
             <a href="{{ url('/projects') }}">
                 <i class="icon-briefcase"></i>
                 <span class="title">Projects</span>
@@ -28,12 +28,12 @@
                 <span class="title">Schedule</span>
             </a>
         </li>
-        <li class="{{ Route::is('blogs')?'active open':'' }}">
-            <a href="{{ url('/gallery') }}">
-                <i class="icon-book-open"></i>
-                <span class="title">Gallery</span>
-            </a>
-        </li>
+        {{--<li class="{{ Route::is('gallery')?'active open':'' }}">--}}
+            {{--<a href="{{ url('/gallery') }}">--}}
+                {{--<i class="icon-book-open"></i>--}}
+                {{--<span class="title">Gallery</span>--}}
+            {{--</a>--}}
+        {{--</li>--}}
         <li class="{{ Route::is('blogs')?'active open':'' }}">
             <a href="{{ url('/blog') }}">
                 <i class="icon-speech"></i>

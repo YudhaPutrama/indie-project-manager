@@ -25,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Photo::class => PhotoPolicy::class,
         Project::class => ProjectPolicy::class,
         User::class => UserPolicy::class,
         Post::class => PostPolicy::class,

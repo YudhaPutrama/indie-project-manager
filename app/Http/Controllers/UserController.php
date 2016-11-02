@@ -20,7 +20,6 @@ class UserController extends Controller
 
     public function showListUser(){
         $users = User::all();
-
     }
 
     public function showUser($id){
@@ -119,6 +118,7 @@ class UserController extends Controller
     }
 
     public function listUsers(){
+        $this->authorize('create', User::class);
         $users = User::all();
         return view('user-list',['users'=>$users]);
 

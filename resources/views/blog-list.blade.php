@@ -378,7 +378,7 @@
             <div class="portlet-body">
                 <ul class="list-inline sidebar-tags">
                     @foreach(\App\Tag::all() as $tag)
-                        <li><a href="{{ route('blog-category-item',['tag'=>$tag]) }}"><i class="fa fa-tags"></i> {{ $tag['name'] }} </a></li>
+                        <li><a href="{{ route('blog-tag-item',['tag'=>$tag]) }}"><i class="fa fa-tags"></i> {{ $tag['name'] }} </a></li>
                     @endforeach
                 </ul>
             </div>

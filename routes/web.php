@@ -46,17 +46,15 @@ Route::group(['middleware'=>['auth']], function (){
         Route::post('/{project}/members','ProjectController@addMember');
         Route::get('/{project}/members/{user}/remove','ProjectController@removeMember');
 
-
         Route::get('/{project}/{photo}', 'PhotoController@showPhoto')->name('photo');
-        Route::post('/{project}/{photo}', 'PhotoController@updatePhoto');
+        Route::post('/{project}/{photo}', 'PhotoController@update');
+        Route::get('/{project}/{photo}/accept', 'PhotoController@acceptPhoto')->name('accept-photo');
         Route::get('/{project}/{photo}/comments', 'PhotoController@listComments');
         Route::post('/{project}/{photo}/comments', 'PhotoController@postComment');
-
     });
 
-    //for admin or staff
     Route::get('/schedule', 'ScheduleController@listSchedule');
-    Route::get('/users', 'UserController@listUsers');
+    Route::get('/users', 'UserController@listUsers')->name('users');
     Route::post('/users','UserController@newUser');
     Route::get('/users/{user}/','UserController@viewUser')->name('view-user');
     Route::post('/users/{user}/remove','UserController@removeUser');
@@ -65,10 +63,12 @@ Route::group(['middleware'=>['auth']], function (){
 
     Route::get('/blog','BlogController@index')->name('blogs');
     Route::get('/blog/tags','BlogController@listTags');
+    Route::get('/blog/tags/{tag}','BlogController@showTag');
     Route::get('/blog/categories', 'BlogController@listCategories');
+    Route::get('/blog/categories/{category}', 'BlogController@showCategory');
     Route::get('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-item');
     Route::get('/blog/categories/{category}', 'BlogController@showCategory')->name('blog-category-item');
-//    Route::get('/blog/new','BlogController@create');
+
     Route::post('blog','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');
     Route::post('/blog/{post}','BlogController@update');
