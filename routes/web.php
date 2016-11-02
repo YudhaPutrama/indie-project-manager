@@ -13,7 +13,7 @@
 
 Route::get('/', 'PublicController@index');
 Route::get('/gallery', 'PublicController@gallery');
-Route::get('/post/', 'PublicController@showPost');
+Route::get('/post/{post}', 'PublicController@showPost');
 
 Auth::routes();
 
@@ -65,7 +65,7 @@ Route::group(['middleware'=>['auth']], function (){
     Route::post('/users/check', 'UserController@checkUsername')->name('checkUsername');
 
     Route::get('/blog','BlogController@index')->name('blogs');
-    Route::get('/blog/manage','BlogController@managePosts');
+    Route::get('/blog/manage','BlogController@managePosts')->name('manage-post');
     Route::get('/blog/tags','BlogController@listTags');
     Route::get('/blog/categories', 'BlogController@listCategories');
     Route::get('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-item');

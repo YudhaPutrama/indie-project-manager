@@ -14,7 +14,7 @@ class PublicController extends Controller
         return view('public.portfolio');
     }
 
-    public function showPost(){
+    public function showPost(Post $post){
         return view('public.post');
     }
 }

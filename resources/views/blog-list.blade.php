@@ -289,21 +289,9 @@
     @can('create', \App\Post::class)
     <div class="page-toolbar">
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-                New <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-                <li>
-                    <a href="#newPost" data-toggle="modal" role="button">Post</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#newTag" data-toggle="modal" role="button">Tag</a>
-                </li>
-                <li>
-                    <a href="#newCategory" data-toggle="modal" role="button">Category</a>
-                </li>
-            </ul>
+            <a href="{{ route('manage-post') }}" class="btn green" id="manage">
+                Manage <i class="icon-pencil"></i>
+            </a>
         </div>
     </div>
     @endcan
