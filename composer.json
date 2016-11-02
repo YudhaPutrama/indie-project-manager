@@ -47,7 +47,9 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "php artisan key:generate"
         ]
     },
     "config": {
