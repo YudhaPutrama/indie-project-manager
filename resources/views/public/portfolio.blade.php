@@ -7,6 +7,7 @@
 					<div class="spinner"></div>
 				</div>
 			</div>
+			@foreach(\App\Post::all()->take('12') as $post)
 			<div class="row masonry masonryFlyIn">
 				<div class="masonry-item project col-sm-4" data-filter="People">
 					<div class="image-tile hover-tile text-center">
@@ -20,6 +21,7 @@
 					</div>
 				</div>
 			</div>
+			@endforeach
 		</div>
 	</section><a id="testimonial" class="in-page-link"></a>
 @endsection
