@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'PublicController@index');
+Route::get('/gallery', 'PublicController@gallery');
+Route::get('/post/', 'PublicController@showPost');
 
 Auth::routes();
 
@@ -48,6 +50,7 @@ Route::group(['middleware'=>['auth']], function (){
 
         Route::get('/{project}/{photo}', 'PhotoController@showPhoto')->name('photo');
         Route::post('/{project}/{photo}', 'PhotoController@update');
+        Route::get('/{project}/{photo}/remove', 'PhotoController@deletePhoto');
         Route::get('/{project}/{photo}/accept', 'PhotoController@acceptPhoto')->name('accept-photo');
         Route::get('/{project}/{photo}/comments', 'PhotoController@listComments');
         Route::post('/{project}/{photo}/comments', 'PhotoController@postComment');
@@ -62,14 +65,13 @@ Route::group(['middleware'=>['auth']], function (){
     Route::post('/users/check', 'UserController@checkUsername')->name('checkUsername');
 
     Route::get('/blog','BlogController@index')->name('blogs');
+    Route::get('/blog/manage','BlogController@managePosts');
     Route::get('/blog/tags','BlogController@listTags');
-    Route::get('/blog/tags/{tag}','BlogController@showTag');
     Route::get('/blog/categories', 'BlogController@listCategories');
-    Route::get('/blog/categories/{category}', 'BlogController@showCategory');
     Route::get('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-item');
     Route::get('/blog/categories/{category}', 'BlogController@showCategory')->name('blog-category-item');
 
-    Route::post('blog','BlogController@store')->name('newPost');
+    Route::post('blog/manage','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');
     Route::post('/blog/{post}','BlogController@update');
     Route::get('/blog/{post}/remove','BlogController@destroy')->name('removePost');

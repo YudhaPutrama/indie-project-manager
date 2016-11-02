@@ -55,8 +55,8 @@ class BlogController extends Controller
                 'summary' => 'required',
                 'body' => 'required',
                 'image' => 'required|image',
-//                'tags.*.slug' => 'required|exist:tags,slug',
-//                'category' => 'required|exist:categories,slug'
+                'tags.*.slug' => 'exists:tags,slug',
+                'category' => 'exists:categories,slug'
             ]);
             if ($validator->fails())
                 return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
@@ -64,18 +64,19 @@ class BlogController extends Controller
                 $image = $request->file('image');
                 $filename = Auth::user()->id.'-'.time().'.'.$image->getClientOriginalExtension();
                 Image::make($image)->save(public_path(Config::get('image.dir.post')).$filename);
-                Image::make($image)->fit(230,130)->save(public_path(Config::get('image.dir.postThumb')).$filename);
+                Image::make($image)->fit(360,240)->save(public_path(Config::get('image.dir.postThumb')).$filename);
                 $post = new Post();
                 $post->user_id = Auth::user()->id;
                 $post->title = $data['title'];
                 $post->image = $filename;
                 $post->summary = $data['summary'];
                 $post->body = $data['body'];
-//                foreach ($data['tags'] as $tag){
-//                    $post->tags->attach($tag);
-//                }
-//                $post->category = $data['category'];
+                if ($request->has('category'))$post->category_slug = $data['category'];
                 $post->save();
+                if ($request->has('tags'))
+                foreach ($data['tags'] as $tag){
+                    $post->tags()->attach($tag);
+                }
             } catch (Exception $ex){
                     return Response::json(['status'=>'error']);
             }
@@ -110,6 +111,14 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
+    private function editCategory(){
+
+    }
+
+    private function deleteCategory(){
+
+    }
+
     private function newTag($data){
         $validator = Validator::make($data,[
             'name' => 'required',
@@ -124,6 +133,9 @@ class BlogController extends Controller
             return Response::json(['status'=>'success','tag'=>$tag]);
         return Response::json(['status'=>'error']);
     }
+
+    private function editTag(){}
+    private function deleteTag(){}
 
     public function showTag(Tag $tag){
         return view('blog-list', ['posts'=>$tag->posts()->paginate(8)]);
@@ -143,6 +155,11 @@ class BlogController extends Controller
     public function show(Post $post)
     {
         return view('blog-post',['post'=>$post]);
+    }
+
+    public function managePosts(){
+        $posts = Post::all();
+        return view('blog-manage',['posts'=>$posts]);
     }
 
     public function listTags(){

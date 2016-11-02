@@ -340,6 +340,13 @@
                             <a href="{{ Request::url().'/accept' }}" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
                                 <i class="fa fa-check"></i> Accept Photo </a>
                             @endcan
+                            @can('delete', $photo)
+                                <a class="btn btn-sm btn-circle red" data-toggle="modal" role="button"
+                                onclick="event.preventDefault(); document.getElementById('remove-form').submit(); return false;">
+                                    <i class="fa fa-trash"></i> Remove Photo </a>
+                                <form id="remove-form" action="{{ Request::url() }}" method="DELETE" style="display: none;">
+                                </form>
+                            @endcan
                         @endif
                         <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#" data-original-title="" title="">
                         </a>

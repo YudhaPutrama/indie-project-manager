@@ -28,17 +28,16 @@
         </a>
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
-                {{--
                 <!-- BEGIN NOTIFICATION DROPDOWN -->
                 <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <a href="javascript;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="icon-bell"></i>
                         <span class="badge badge-default">{{ Auth::user()->notifications->count() }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="external">
                             <h3><span class="bold">{{ Auth::user()->notifications->count() }} </span> notifications</h3>
-                            <a href="{{ url('/profile') }}">view all</a>
+                            <a href="{{ url('/notifications') }}">view all</a>
                         </li>
                         <li>
                             <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
@@ -60,7 +59,6 @@
                     </ul>
                 </li>
                 <!-- END NOTIFICATION DROPDOWN -->
-                --}}
                 @if(isset($progress))
                 <!-- BEGIN PROGRESS DROPDOWN -->
                 <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
@@ -148,7 +146,7 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
     <div class="page-footer-inner">
-        2016 &copy; Develop by YudhaPutrama
+        2016 &copy; Develop by MiniArch Developer
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>

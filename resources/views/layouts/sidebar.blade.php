@@ -4,7 +4,7 @@
     <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
         {{--Dashboard--}}
         <li class="start {{ Route::is('dashboard')?'active open':'' }}">
-            <a href="{{ url('/') }}">
+            <a href="{{ url('/dashboard') }}">
                 <i class="icon-home"></i>
                 <span class="title">Dashboard</span>
                 <span class="selected"></span>

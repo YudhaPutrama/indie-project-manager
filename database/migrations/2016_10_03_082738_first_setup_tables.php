@@ -91,7 +91,7 @@ class FirstSetupTables extends Migration
             $table->string('url');
             $table->string('url_thumb');
             $table->string('status')->default('uploaded'); //uploaded, reviewed, done
-
+            $table->boolean('edited')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -113,12 +113,45 @@ class FirstSetupTables extends Migration
             $table->string('location');
             $table->date('start');
             $table->date('end');
-            //$table->string('color');
             $table->string('status'); // done, ongoing, pending
 
             $table->timestamps();
         });
 
+
+        Schema::create('posts', function (Blueprint $table){
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->string("title");
+            $table->string('category_slug')->nullable();
+            $table->string('image')->nullable();
+            $table->text('summary')->nullable();
+            $table->text('body')->nullable();
+            $table->string('status')->default('publish'); // publish, private, draft
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('tags', function (Blueprint $table){
+            $table->string('slug');
+            $table->string('name');
+            $table->timestamps();
+            $table->primary('slug');
+        });
+
+
+        Schema::create('categories', function (Blueprint $table){
+            $table->string('slug');
+            $table->string('name');
+            $table->timestamps();
+            $table->primary('slug');
+        });
+
+        Schema::create('post_tags', function (Blueprint $table){
+            $table->unsignedInteger('post_id');
+            $table->string('tag_slug');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -137,5 +170,10 @@ class FirstSetupTables extends Migration
         Schema::drop('schedules');
         Schema::drop('favorite_projects');
         Schema::drop('favorite_photos');
+
+        Schema::drop('posts');
+        Schema::drop('tags');
+        Schema::drop('categories');
+        Schema::drop('post_tags');
     }
 }

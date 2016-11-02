@@ -12,6 +12,7 @@
     <script src="/vendor/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
     <script src="/vendor/jquery.pulsate.min.js" type="text/javascript"></script>
     <script src="/vendor/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/vendor/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
 
     <script src="/vendor/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
     <script src="/vendor/jquery.sparkline.min.js" type="text/javascript"></script>
@@ -273,7 +274,7 @@
                                     </td>
                                     <td>
                                         @can('update', $user)
-                                            @if($user['id']!=Auth::user()->id)<button type="button" data-url="{{ Request::url().'/'.$user['id'].'/remove' }}" data-user-id="{{ $user['id'] }}" class="btn default btn-xs green-stripe" id="remove-user">Remove User </button>@endif
+                                            @if($user['id']!=Auth::user()->id)<button type="button" data-url="{{ Request::url().'/'.$user['id'].'/remove' }}" data-user-id="{{ $user['id'] }}" data-toggle="confirmation" data-original-title="Are you sure?" class="btn default btn-xs red-stripe" id="remove-user">Remove User </button>@endif
                                             {{--<a href="#" class="btn default btn-xs green-stripe">Edit User </a>--}}
                                             <a href="{{ route('view-user',['user'=>$user]) }}" class="btn default btn-xs green-stripe">View User </a>
                                         @endcan

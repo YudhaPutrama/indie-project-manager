@@ -15,6 +15,7 @@
     <script src="/js/pages/form-validation.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+    <script type="text/javascript" src="/vendor/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
     <script>
         jQuery(document).ready(function() {
             Metronic.init(); // init metronic core componets
@@ -429,7 +430,7 @@
                         <i class="fa fa-users"></i> Members </a>
                     <a href="#edit-project" data-toggle="modal" role="button" class="btn btn-circle btn-default">
                         <i class="fa fa-pencil"></i> Edit Project </a>
-                    <a href="{{ Request::url().'/remove' }}" data-toggle="modal" role="button" class="btn btn-circle red">
+                    <a href="{{ Request::url().'/remove' }}" data-toggle="confirmation" data-original-title="Are you sure?" role="button" class="btn btn-circle red">
                         <i class="fa fa-trash"></i> Remove Project </a>
                 </div>
                 @endcan

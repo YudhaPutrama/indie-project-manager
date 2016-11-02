@@ -25,6 +25,7 @@
     <script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
 
+
     <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-fileinput/bootstrap-fileinput.js"></script>
 

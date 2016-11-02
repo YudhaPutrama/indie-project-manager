@@ -3,16 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
 
     public function user(){
         return $this->belongsTo('App\User');
     }
 
     public function category(){
-        return $this->hasOne('App\Category');
+        return $this->belongsTo('App\Category', 'category_slug');
     }
 
     public function tags(){

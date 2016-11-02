@@ -168,7 +168,7 @@
                             <label for="tags" class="control-label col-md-3">Tags</label>
                             <div class="col-md-8">
                                 <div class="input-group select2-bootstrap-append">
-                                    <select id="tags" class="form-control select2" multiple name="tags">
+                                    <select id="tags" class="form-control select2" multiple name="tags[]">
                                         @foreach(\App\Tag::all() as $tag)
                                         <option value="{{ $tag['slug'] }}">{{ $tag['name'] }}</option>
                                         @endforeach

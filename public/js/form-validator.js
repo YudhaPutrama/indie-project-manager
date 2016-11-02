@@ -5,7 +5,7 @@
 var FormValidation = function () {
 
     // basic validation
-    var handleValidation1 = function() {
+    var postValidation = function() {
         // for more info visit the official plugin documentation:
         // http://docs.jquery.com/Plugins/Validation
 

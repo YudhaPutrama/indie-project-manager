@@ -15,7 +15,7 @@ class Category extends Model
     protected $hidden = ['updated_at','created_at'];
 
     public function posts(){
-        return $this->hasMany('App\Post');
+        return $this->hasMany('App\Post','category_slug');
     }
 
 }
