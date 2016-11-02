@@ -124,7 +124,7 @@ class ProjectController extends Controller
     }
 
     public function showUpload(Project $project){
-        return view('upload',['project'=>$project]);
+        return view('fileupload',['project'=>$project]);
     }
 
     public function uploadPhotos(Request $request, Project $project){
