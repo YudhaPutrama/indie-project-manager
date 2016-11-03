@@ -32,6 +32,8 @@
     <script type="text/javascript" src="/vendor/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
     <script type="text/javascript" src="/vendor/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
     <script type="text/javascript" src="/vendor/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/vendor/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/js/pages/table-advanced.js"></script>
@@ -41,11 +43,9 @@
             Metronic.init(); // init metronic core componets
             Layout.init(); // init layout
             Index.init();
-            Index.initCalendar(); // init index page's custom scripts
-            Index.initCharts(); // init index page's custom scripts
-            Index.initChat();
-            Index.initMiniCharts();
 
+
+            $('.select2').select2();
             $("form#addMember").submit(function() {
 
                 var formData = new FormData($(this)[0]);
@@ -220,18 +220,21 @@
                         <h4 class="modal-title">Add Member</h4>
                     </div>
                     <div class="modal-body">
-                        <!-- BEGIN FORM-->
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Username</label>
-                                <div class="col-md-8">
-                                    <div class="input-group" style="text-align:left">
-                                        <input type="text" class="form-control" name="username" id="username_input">
-                                        <span class="input-group-btn">
-                                            <a href="#" class="btn green" id="username_checker">
-                                                <i class="fa fa-check"></i> Check </a>
-                                        </span>
-                                    </div>
+
+                        <div class="form-group">
+                            <label for="tags" class="control-label col-md-3">Tags</label>
+                            <div class="col-md-8">
+                                <div class="input-group select2-bootstrap-append">
+                                    <select id="tags" class="form-control select2" multiple name="members[]">
+                                        @foreach($users as $user)
+                                            <option value="{{ $user['id'] }}">{{ $user['fullname'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -274,7 +277,7 @@
                     </div>
                     <div class="actions">
                         <a href="#new-member" data-toggle="modal" role="button" class="btn btn-circle btn-default">
-                            <i class="fa fa-users"></i> Add New Client </a>
+                            <i class="fa fa-user"></i> Add New Client </a>
                         <a href="#from-list" data-toggle="modal" role="button" class="btn btn-circle btn-default">
                             <i class="fa fa-users"></i> Add From List </a>
                     </div>
@@ -319,7 +322,10 @@
                                 </td>
                                 <td>
                                     @can('update', $member)
-                                    @if($member['id']!=Auth::user()->id)<a href="{{ Request::url().'/'.$member['id'].'/remove' }}" class="btn default btn-xs green-stripe">Remove User </a>@endif
+                                    @if($member['id']!=Auth::user()->id)
+                                            <a href="{{ Request::url().'/'.$member['id'].'/remove' }}"
+                                               class="btn default btn-xs red-stripe" data-toggle="confirmation">Remove User </a>
+                                    @endif
                                     {{--<a href="#" class="btn default btn-xs green-stripe">Edit User </a>--}}
                                     <a href="{{ route('view-user',['user'=>$member]) }}" class="btn default btn-xs green-stripe">View User </a>
                                     @endcan

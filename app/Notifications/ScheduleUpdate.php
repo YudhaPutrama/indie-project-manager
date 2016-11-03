@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Schedule;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,14 +13,20 @@ class ScheduleUpdate extends Notification
 {
     use Queueable;
 
+    private $user;
+    private $schedule;
+    private $action;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user, Schedule $schedule, $action)
     {
-        //
+        $this->user = $user;
+        $this->schedule = $schedule;
+        $this->action = $action;
     }
 
     /**
@@ -41,7 +49,9 @@ class ScheduleUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'user'=>$this->user,
+            'schedule'=>$this->schedule,
+            'action'=>$this->action
         ];
     }
 }

@@ -8,9 +8,9 @@
     <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/themify-icons.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/flexslider.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/flexslider.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7CRaleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
 </head>
 <body class="boxed-layout btn-rounded scroll-assist">
@@ -19,8 +19,8 @@
         <div class="nav-bar">
             <div class="module left">
                 <a href="/">
-                    <img class="logo logo-light" alt="Indie Logo" src="img/logo-light.png">
-                    <img class="logo logo-dark" alt="Indie Logo" src="img/logo-dark.png">
+                    <img class="logo logo-light" alt="Indie Logo" src="/img/logo-light.png">
+                    <img class="logo logo-dark" alt="Indie Logo" src="/img/logo-dark.png">
                 </a>
             </div>
             <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
@@ -38,9 +38,9 @@
                         <li>
                             <a href="{{ url('/about') }}">About</a>
                         </li>
-                        <li>
-                            <a href="{{ url('/contact') }}">Contact</a>
-                        </li>
+                        {{--<li>--}}
+                            {{--<a href="{{ url('/contact') }}">Contact</a>--}}
+                        {{--</li>--}}
                         <span class="nav-divider"></span>
                         @if(Auth::check())
                         <li>
@@ -64,7 +64,7 @@
             <div class="row mb64 mb-xs-24">
                 <div class="col-sm-12">
                     <a href="#">
-                        <img alt="logo" class="image-xxs" src="img/logo-light.png">
+                        <img alt="logo" class="image-xxs" src="/img/logo-light.png">
                     </a>
                 </div>
             </div>
@@ -98,11 +98,11 @@
         </div>
     </footer>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/flexslider.min.js"></script>
-<script src="js/masonry.min.js"></script>
-<script src="js/parallax.js"></script>
-<script src="js/scripts.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/flexslider.min.js"></script>
+<script src="/js/masonry.min.js"></script>
+<script src="/js/parallax.js"></script>
+<script src="/js/scripts.js"></script>
 </body>
 </html>

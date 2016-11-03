@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Photo;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,15 +13,22 @@ class PhotoUpdate extends Notification
 {
     use Queueable;
 
+    private $user;
     private $photo;
+    private $action;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param User $user
+     * @param Photo $photo
+     * @param string $action
      */
-    public function __construct($photo)
+    public function __construct(User $user, Photo $photo, $action)
     {
+        $this->user = $user;
         $this->photo = $photo;
+        $this->action = $action;
     }
 
     /**
@@ -44,11 +52,9 @@ class PhotoUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'photo_id'=>$this->photo->id,
+            'user'=>$this->user,
+            'photo'=>$this->photo,
+            'action'=>$this->action
         ];
-    }
-
-    public function toPhoto($notifiable){
-        return $this->photo;
     }
 }

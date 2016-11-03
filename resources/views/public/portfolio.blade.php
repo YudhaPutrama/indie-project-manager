@@ -11,11 +11,11 @@
 			<div class="row masonry masonryFlyIn">
 				<div class="masonry-item project col-sm-4" data-filter="People">
 					<div class="image-tile hover-tile text-center">
-						<img alt="image" class="background-image" src="img/home17.jpg">
+						<img alt="image" class="background-image" src="{{ Config::get('image.dir.postThumb').$post['image'] }}">
 						<div class="hover-state">
-							<a href="#">
-								<h4 class="uppercase mb8">Office Space</h4>
-								<h6 class="uppercase">Technology / Photography</h6>
+							<a href="{{ route('post-public',['post'=>$post]) }}">
+								<h4 class="uppercase mb8">{{ $post['title'] }}</h4>
+								<h6 class="uppercase">{{ $post->category['name'] }}</h6>
 							</a>
 						</div>
 					</div>

@@ -38,6 +38,9 @@ class HomeController extends Controller
             return view('dashboard',['comments'=>$comments, 'photos'=>$photos, 'projects'=>$projects]);
         }
         return redirect('/projects');
+    }
 
+    public function notifications(){
+        return view('notifications');
     }
 }

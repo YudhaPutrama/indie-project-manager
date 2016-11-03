@@ -56,6 +56,7 @@
                     success: function (data) {
                         if (data.status=='success'){
                             toastr['success']("Post successfully created", "Add Post");
+                            window.location.reload();
                         } else {
                             if (data.detail!=null)
                                 toastr['error'](data.detail, "Add Post");

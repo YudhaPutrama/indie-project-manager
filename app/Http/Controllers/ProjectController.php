@@ -128,40 +128,42 @@ class ProjectController extends Controller
     }
 
     public function uploadPhotos(Request $request, Project $project){
-        if ($request->hasFile('file')){
-            $validator = Validator::make($request->all(), ['avatar'=>'image']);
-            if ($validator->fails()){
-                return Response::json(['status'=>'error']);
-            }
-            $user = Auth::user();
-            $file = $request->file('file');
-            $filename_full = $project->id.'_'.$user->id.'_'.time().'_full'.'.'.$file->getClientOriginalExtension();
-            $filename_icon = $project->id.'_'.$user->id.'_'.time().'_icon'.'.'.$file->getClientOriginalExtension();
+        $validator = Validator::make($request->all(), [
+            'image'=>'required|image',
+            'title'=>'required',
+            'location'=>'required'
+        ]);
+        if ($validator->fails()){
+            return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
+        }
+        $user = Auth::user();
+        $file = $request->file('image');
+        $filename_full = $project->id.'_'.$user->id.'_'.time().'_full'.'.'.$file->getClientOriginalExtension();
+        $filename_icon = $project->id.'_'.$user->id.'_'.time().'_icon'.'.'.$file->getClientOriginalExtension();
 
-            try {
-                //save full size
-                Image::make($file)->save(public_path(Config::get('image.dir.projects.photos')) . $filename_full);
+        try {
+            //save full size
+            Image::make($file)->save(public_path(Config::get('image.dir.projects.photos')) . $filename_full);
 
-                //save icon size
-                Image::make($file)->resize(200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(public_path(Config::get('image.dir.projects.photos')) . $filename_icon);
-            } catch (NotWritableException $ex){
-                return Response::json(['status'=>'error','detail'=>'Error when saving']);
-            }
-            $photo = new Photo();
-            $photo->user_id = Auth::user()->id;
-            $photo->title = "Project Photo";
-            $photo->url = $filename_full;
-            $photo->url_thumb = $filename_icon;
-            $photo->status = "uploaded";
-            $photo->location = '';
+            //save icon size
+            Image::make($file)->resize(200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path(Config::get('image.dir.projects.photos')) . $filename_icon);
+        } catch (NotWritableException $ex){
+            return Response::json(['status'=>'error','detail'=>'Error when saving']);
+        }
+        $photo = new Photo();
+        $photo->user_id = Auth::user()->id;
+        $photo->title = $request->get('title');
+        $photo->url = $filename_full;
+        $photo->url_thumb = $filename_icon;
+        $photo->status = "uploaded";
+        $photo->location = $request->get('location');
 
 
-            if ($project->photos()->save($photo)){
-                //return $image_full;
-                return Response::json(['status'=>'success'],200);
-            }
+        if ($project->photos()->save($photo)){
+            //return $image_full;
+            return Response::json(['status'=>'success'],200);
         }
         return Response::json(['status'=>'error']);
     }
@@ -169,19 +171,28 @@ class ProjectController extends Controller
     public function listMember(Project $project, Request $request){
         //return $project->members;
         $members = $project->members;
-        //$staff = $members->
-        return view('member-list', ['members'=>$members]);
+        $admin = User::where('role','admin')->get();
+        $users = User::all()->diff($members)->diff($admin);
+        return view('member-list', ['members'=>$members,'users'=>$users]);
     }
 
     public function addMember(Request $request, Project $project){
         $this->authorize('update', $project);
         if ($request->has('fromId')){
-            $user = User::where('username',$request->get('username'))->first();
-            if ($user==null){
-                return Response::json(['status'=>'error']);
+//            $user = User::where('username',$request->get('username'))->first();
+//            if ($user==null){
+//                return Response::json(['status'=>'error']);
+//            }
+            $validator = Validator::make($request->all(),[
+                'members.*'=>'required|exists:users,id'
+            ]);
+            if ($validator->fails()){
+                return Response::json(['status'=>'error','error'=>$validator->errors()->first()]);
             }
-
-            $project->members()->attach($user->id);
+            $data = $request->all();
+            foreach ($data['members'] as $member){
+                $project->members()->attach($member);
+            }
 
             return Response::json(['status'=>'success']);
         }

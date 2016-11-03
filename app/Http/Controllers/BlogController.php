@@ -111,11 +111,11 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
-    private function editCategory(){
+    public function editCategory(){
 
     }
 
-    private function deleteCategory(){
+    public function deleteCategory(){
 
     }
 
@@ -134,8 +134,8 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
-    private function editTag(){}
-    private function deleteTag(){}
+    public function editTag(){}
+    public function deleteTag(){}
 
     public function showTag(Tag $tag){
         return view('blog-list', ['posts'=>$tag->posts()->paginate(8)]);

@@ -13,12 +13,14 @@
 
 Route::get('/', 'PublicController@index');
 Route::get('/gallery', 'PublicController@gallery');
-Route::get('/post/{post}', 'PublicController@showPost');
+Route::get('/post/{post}', 'PublicController@post')->name('post-public');
+Route::get('/about', 'PublicController@about');
 
 Auth::routes();
 
 Route::group(['middleware'=>['auth']], function (){
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/notifications', 'HomeController@notifications')->name('notifications');
 
     Route::group(['prefix'=>'profile'], function (){
         Route::get('/', 'UserController@showProfile')->name('profile');
@@ -44,7 +46,7 @@ Route::group(['middleware'=>['auth']], function (){
         Route::post('/{project}/upload', 'ProjectController@uploadPhotos');
 
         //Route::post('/projects/{project}/schedule','ScheduleController@postSchedule');
-        Route::get('/{project}/members','ProjectController@listMember');
+        Route::get('/{project}/members','ProjectController@listMember')->name('project-members');
         Route::post('/{project}/members','ProjectController@addMember');
         Route::get('/{project}/members/{user}/remove','ProjectController@removeMember');
 
@@ -69,7 +71,11 @@ Route::group(['middleware'=>['auth']], function (){
     Route::get('/blog/tags','BlogController@listTags');
     Route::get('/blog/categories', 'BlogController@listCategories');
     Route::get('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-item');
+    Route::put('/blog/tags/{tag}', 'BlogController@showTag')->name('blog-tag-edit');
+    Route::get('/blog/tags/{tag}/remove', 'BlogController@deleteTag')->name('blog-tag-remove');
     Route::get('/blog/categories/{category}', 'BlogController@showCategory')->name('blog-category-item');
+    Route::put('/blog/categories/{category}', 'BlogController@showCategory')->name('blog-category-edit');
+    Route::get('/blog/categories/{category}/remove', 'BlogController@deleteCategory')->name('blog-category-remove');
 
     Route::post('blog/manage','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');

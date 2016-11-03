@@ -12,7 +12,7 @@
     <script src="/js/metronic.js" type="text/javascript"></script>
     <script src="/js/layout.js" type="text/javascript"></script>
     <script src="/js/pages/photos.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="/vendor/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
     <script>
         jQuery(document).ready(function() {
             Metronic.init(); // init metronic core componets
@@ -252,7 +252,7 @@
                     <input type="hidden" name="action" value="revision">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Update Photo</h4>
+                        <h4 class="modal-title">Revision Photo</h4>
                     </div>
                     <div class="modal-body">
                         <!-- BEGIN FORM-->
@@ -334,17 +334,15 @@
                                 <a href="#edit-detail" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
                                     <i class="fa fa-pencil"></i> Edit Detail </a>
                                 <a href="#update-photo" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
-                                    <i class="fa fa-arrow-up"></i> Update Photo </a>
+                                    <i class="fa fa-arrow-up"></i> Revision Photo </a>
                             @endcan
                             @can('accept', $photo)
                             <a href="{{ Request::url().'/accept' }}" class="btn btn-sm btn-circle green" data-toggle="modal" role="button">
                                 <i class="fa fa-check"></i> Accept Photo </a>
                             @endcan
                             @can('delete', $photo)
-                                <a class="btn btn-sm btn-circle red" data-toggle="modal" role="button"
-                                onclick="event.preventDefault(); document.getElementById('remove-form').submit(); return false;">
+                                <a href="{{ Request::url().'/remove' }}" class="btn btn-sm btn-circle red" data-toggle="confirmation" data-original-title="Are you sure?" role="button">
                                     <i class="fa fa-trash"></i> Remove Photo </a>
-                                <form id="remove-form" action="{{ Request::url() }}" method="DELETE" style="display: none;">
                                 </form>
                             @endcan
                         @endif

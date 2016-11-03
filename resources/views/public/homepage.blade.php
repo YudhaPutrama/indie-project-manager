@@ -149,51 +149,21 @@
 					<div class="spinner"></div>
 				</div>
 			</div>
+
 			<div class="row masonry masonryFlyIn">
+				@foreach($posts as $post)
 				<div class="masonry-item project col-sm-4" data-filter="People">
 					<div class="image-tile hover-tile text-center">
-						<img alt="image" class="background-image" src="img/home17.jpg">
+						<img alt="image" class="background-image" src="{{ Config::get('image.dir.postThumb').$post['image'] }}">
 						<div class="hover-state">
 							<a href="#">
-								<h4 class="uppercase mb8">Office Space</h4>
-								<h6 class="uppercase">Technology / Photography</h6>
+								<h4 class="uppercase mb8">{{ $post['title'] }}</h4>
+								<h6 class="uppercase">{{ $post->category['name'] }}</h6>
 							</a>
 						</div>
 					</div>
 				</div>
-				<div class="masonry-item project col-sm-4" data-filter="People">
-					<div class="image-tile hover-tile text-center">
-						<img alt="image" class="background-image" src="img/home20.jpg">
-						<div class="hover-state">
-							<a href="#">
-								<h4 class="uppercase mb8">Terrarium</h4>
-								<h6 class="uppercase">San Jose / CA</h6>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="masonry-item project col-sm-4" data-filter="People">
-					<div class="image-tile hover-tile text-center">
-						<img alt="image" class="background-image" src="img/home14.jpg">
-						<div class="hover-state">
-							<a href="#">
-								<h4 class="uppercase mb8">Design Kit</h4>
-								<h6 class="uppercase">Technology / Photography</h6>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="masonry-item project col-sm-4" data-filter="People">
-					<div class="image-tile hover-tile text-center">
-						<img alt="image" class="background-image" src="img/home18.jpg">
-						<div class="hover-state">
-							<a href="#">
-								<h4 class="uppercase mb8">Note Taking</h4>
-								<h6 class="uppercase">Productivity</h6>
-							</a>
-						</div>
-					</div>
-				</div>
+				@endforeach
 			</div>
 		</div>
 	</section><a id="testimonial" class="in-page-link"></a>

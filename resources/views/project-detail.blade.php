@@ -418,6 +418,18 @@
             <p>{{ session('message') }}</p>
         </div>
         @endif
+        @can('update', $project)
+            @if($project['members']->count()<1)
+                <div class="note note-warning">
+                    <p>No <strong>member</strong> found. Please add more member. <a href="{{ Request::url().'/members/' }}">Click here</a></p>
+                </div>
+            @endif
+            @if($project['photos']->count()<1)
+                <div class="note note-warning">
+                    <p>No <strong>photo</strong> found. Please add more photo. <a href="{{ Request::url().'/members/' }}">Click here</a></p>
+                </div>
+        @endif
+        @endcan
         <!-- BEGIN PORTLET-->
         <div class="portlet light">
             <div class="portlet-title">

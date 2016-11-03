@@ -2,28 +2,35 @@
 
 namespace App\Notifications;
 
+use App\Project;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class ProjectUpdate extends Notification
 {
     use Queueable;
 
+    private $user;
     /**
      * @var \App\Project
      */
     private $project;
 
+
+    private $action;
     /**
      * Create a new notification instance.
      *
+     * @param User $user
      * @param \App\Project $project
+     * @param string $action
      */
-    public function __construct($project)
+    public function __construct(User $user, Project $project, $action)
     {
+        $this->user = $user;
         $this->project = $project;
+        $this->action = $action;
     }
 
     /**
@@ -46,7 +53,9 @@ class ProjectUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'user'=>$this->user,
+            'project'=>$this->project,
+            'action'=>$this->action
         ];
     }
 }

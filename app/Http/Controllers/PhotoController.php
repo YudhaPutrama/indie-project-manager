@@ -135,6 +135,7 @@ class PhotoController extends Controller
     public function deletePhoto(Project $project, Photo $photo){
         $this->authorize('delete', $photo);
         $photo->delete();
+        return redirect()->route('project-detail',['project'=>$project]);
     }
 
     public function acceptPhoto(Project $project, Photo $photo){
