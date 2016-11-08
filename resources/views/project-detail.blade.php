@@ -426,7 +426,7 @@
             @endif
             @if($project['photos']->count()<1)
                 <div class="note note-warning">
-                    <p>No <strong>photo</strong> found. Please add more photo. <a href="{{ Request::url().'/members/' }}">Click here</a></p>
+                    <p>No <strong>photo</strong> found. Please add more photo. <a href="{{ route('project-upload',['project'=>$project]) }}">Click here</a></p>
                 </div>
         @endif
         @endcan

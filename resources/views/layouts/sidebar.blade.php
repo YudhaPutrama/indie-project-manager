@@ -49,47 +49,47 @@
             </li>
         @endif
 
-        @foreach(Auth::user()->favorite_projects as $project)
-            @if($loop->first)
-                <li class="heading">
-                    <h3 class="uppercase">Favorite Projects</h3>
-                </li>
-            @endif
-        <li>
-            <a href="#">
-                <i class="icon-book-open"></i>
-                <span class="title">Yearbook</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub-menu">
-                <li>
-                    <a href="{{ "/projects/".$project['id'] }}">
-                        <i class="icon-briefcase"></i>
-                        Details</a>
-                </li>
+        {{--@foreach(Auth::user()->favorite_projects as $project)--}}
+            {{--@if($loop->first)--}}
+                {{--<li class="heading">--}}
+                    {{--<h3 class="uppercase">Favorite Projects</h3>--}}
+                {{--</li>--}}
+            {{--@endif--}}
+        {{--<li>--}}
+            {{--<a href="#">--}}
+                {{--<i class="icon-book-open"></i>--}}
+                {{--<span class="title">Yearbook</span>--}}
+                {{--<span class="arrow "></span>--}}
+            {{--</a>--}}
+            {{--<ul class="sub-menu">--}}
+                {{--<li>--}}
+                    {{--<a href="{{ "/projects/".$project['id'] }}">--}}
+                        {{--<i class="icon-briefcase"></i>--}}
+                        {{--Details</a>--}}
+                {{--</li>--}}
                 {{--<li>--}}
                     {{--<a href="{{ url(route('project-gallery',['id'=>$project['id']])) }}">--}}
                         {{--<i class="icon-frame"></i>--}}
                         {{--Gallery</a>--}}
                 {{--</li>--}}
-                <li>
-                    <a href="{{ url('/review') }}">
-                        <i class="icon-tag"></i>
-                        Review</a>
-                </li>
-                <li>
-                    <a href="{{ url('/schedule') }}">
-                        <i class="icon-calendar"></i>
-                        Schedule</a>
-                </li>
-                <li>
-                    <a href="{{ url('/edit') }}">
-                        <i class="icon-pencil"></i>
-                        Edit</a>
-                </li>
-            </ul>
-        </li>
-        @endforeach
+                {{--<li>--}}
+                    {{--<a href="{{ url('/review') }}">--}}
+                        {{--<i class="icon-tag"></i>--}}
+                        {{--Review</a>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href="{{ url('/schedule') }}">--}}
+                        {{--<i class="icon-calendar"></i>--}}
+                        {{--Schedule</a>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href="{{ url('/edit') }}">--}}
+                        {{--<i class="icon-pencil"></i>--}}
+                        {{--Edit</a>--}}
+                {{--</li>--}}
+            {{--</ul>--}}
+        {{--</li>--}}
+        {{--@endforeach--}}
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

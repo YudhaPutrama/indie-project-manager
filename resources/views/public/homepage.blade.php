@@ -156,7 +156,7 @@
 					<div class="image-tile hover-tile text-center">
 						<img alt="image" class="background-image" src="{{ Config::get('image.dir.postThumb').$post['image'] }}">
 						<div class="hover-state">
-							<a href="#">
+							<a href="{{ route('post-public',['post'=>$post]) }}">
 								<h4 class="uppercase mb8">{{ $post['title'] }}</h4>
 								<h6 class="uppercase">{{ $post->category['name'] }}</h6>
 							</a>

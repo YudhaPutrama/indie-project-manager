@@ -10,25 +10,23 @@
 
 @section('js-depends')
     @include('components.js.core')
-    <script src="/vendor/flot/jquery.flot.min.js" type="text/javascript"></script>
-    <script src="/vendor/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
-    <script src="/vendor/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
-    <script src="/vendor/jquery.pulsate.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/vendor/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="/vendor/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="/vendor/flot/jquery.flot.categories.min.js"></script>
+    <script type="text/javascript" src="/vendor/jquery.pulsate.min.js"></script>
 
-    <script src="/js/metronic.js" type="text/javascript"></script>
-    <script src="/js/layout.js" type="text/javascript"></script>
-    <script src="/js/pages/index.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/metronic.js"></script>
+    <script type="text/javascript" src="/js/layout.js"></script>
+    <script type="text/javascript" src="/js/pages/index.js"></script>
     <script type="text/javascript" src="/vendor/jquery-validation/js/jquery.validate.min.js"></script>
-    <script src="/js/pages/form-validation.js"></script>
+    <script type="text/javascript" src="/js/pages/form-validation.js"></script>
     <script type="text/javascript" src="/vendor/jquery-validation/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/vendor/jquery-validation/js/additional-methods.min.js"></script>
     <script type="text/javascript" src="/vendor/select2/select2.min.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
-
     <script type="text/javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap-fileinput/bootstrap-fileinput.js"></script>
-
     <script>
         jQuery(document).ready(function() {
             Metronic.init(); // init metronic core componets
@@ -115,10 +113,6 @@
                                     <button class="close" data-close="alert"></button>
                                     You have some form errors. Please check below.
                                 </div>
-                                <div class="alert alert-success display-hide">
-                                    <button class="close" data-close="alert"></button>
-                                    Your form validation is successful!
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Title <span class="required">* </span></label>
                                     <div class="col-md-8">
@@ -167,7 +161,7 @@
                                     <div class="col-md-8">
                                         <div class="input-group select2-bootstrap-append">
                                             <select id="tags" class="form-control select2" multiple name="tags[]">
-                                                @foreach(\App\Tag::all() as $tag)
+                                                @foreach($tags as $tag)
                                                     <option value="{{ $tag['slug'] }}">{{ $tag['name'] }}</option>
                                                 @endforeach
                                             </select>
@@ -183,7 +177,7 @@
                                     <label for="category" class="control-label col-md-3">Category</label>
                                     <div class="col-md-8">
                                         <select id="category" class="form-control select2" name="category">
-                                            @foreach(\App\Category::all() as $category)
+                                            @foreach($categories as $category)
                                                 <option value="{{ $category['slug'] }}">{{ $category['name'] }}</option>
                                             @endforeach
                                         </select>
@@ -315,7 +309,6 @@
         <div class="col-md-12">
             @if(session('message'))
                 <div class="note note-success">
-                    <h4 class="block">Message</h4>
                     <p>{{ session('message') }}</p>
                 </div>
             @endif
@@ -335,36 +328,19 @@
                         <table class="table table-striped table-bordered table-advance table-hover">
                             <thead>
                             <tr>
-                                <th>
-                                    <i class="fa fa-user"></i> Title
-                                </th>
-                                <th>
-                                    <i class="fa fa-briefcase"></i> Category
-                                </th>
-                                <th class="hidden-xs">
-                                    <i class="fa fa-tags"></i> Tags
-                                </th>
-                                <th>
-                                    <i class="fa fa-calendar"></i> Date
-                                </th>
-                                <th>
-                                    <i class="fa fa-user"></i> Author
-                                </th>
-                                <th>
-                                    <i class="fa fa-pencil"></i> Action
-                                </th>
+                                <th><i class="fa fa-user"></i> Title</th>
+                                <th><i class="fa fa-briefcase"></i> Category</th>
+                                <th class="hidden-xs"><i class="fa fa-tags"></i> Tags</th>
+                                <th><i class="fa fa-calendar"></i> Date</th>
+                                <th><i class="fa fa-user"></i> Author</th>
+                                <th><i class="fa fa-pencil"></i> Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($posts as $post)
-
                                 <tr class="user-item">
-                                    <td>
-                                        {{ $post['title'] }}
-                                    </td>
-                                    <td>
-                                        {{ $post->category['name'] }}
-                                    </td>
+                                    <td>{{ $post['title'] }}</td>
+                                    <td>{{ $post->category['name'] }}</td>
                                     <td class="hidden-xs">
                                         <div class="btn-group-horizontal">
                                             @foreach($post['tags'] as $tag)
@@ -373,17 +349,13 @@
                                             @endforeach
                                         </div>
                                     </td>
-                                    <td>
-                                        {{ (new \Carbon\Carbon($post['updated_at']))->toFormattedDateString() }}
-                                    </td>
-                                    <td>
-                                        {{ $post->user->nickname }}
-                                    </td>
+                                    <td>{{ (new \Carbon\Carbon($post['updated_at']))->toFormattedDateString() }}</td>
+                                    <td>{{ $post->user->nickname }}</td>
                                     <td>
                                         @can('update', $post)
-                                            <button type="button" data-url="{{ Request::url() }}" data-user-id="{{ $post['id'] }}" class="btn default btn-xs red-stripe" data-toggle="confirmation" data-original-title="Are you sure?" id="remove-user">Remove Post </button>
-                                            <a href="#" class="btn default btn-xs green-stripe">Edit Post </a>
-                                            <a href="" class="btn default btn-xs blue-stripe">View Post </a>
+                                            <a href="{{ route('remove-post',['post'=>$post]) }}" class="btn default btn-xs red-stripe" data-toggle="confirmation" data-original-title="Are you sure?" id="remove-user">Remove Post </a>
+                                            <a href="{{ route('update-post',['post'=>$post]) }}" class="btn default btn-xs green-stripe">Edit Post </a>
+                                            <a href="{{ route('blog-view',['post'=>$post]) }}" class="btn default btn-xs blue-stripe">View Post </a>
                                         @endcan
                                     </td>
                                 </tr>
@@ -418,8 +390,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach(\App\Tag::all() as $tag)
-
+                            @foreach($tags as $tag)
                                 <tr class="user-item">
                                     <td>
                                         {{ $tag['name'] }}
@@ -428,9 +399,9 @@
                                         {{ $tag['slug'] }}
                                     </td>
                                     <td>
-                                        <button type="button" data-url="{{ Request::url() }}" data-user-id="{{ $post['id'] }}" class="btn default btn-xs red-stripe" id="remove-user"><i class="fa fa-trash"></i> </button>
-                                        <a href="#" class="btn default btn-xs green-stripe"><i class="fa fa-pencil"></i> </a>
-                                        <a href="" class="btn default btn-xs blue-stripe"><i class="fa fa-angle-right"></i> </a>
+                                        <a href="{{ route('blog-tag-remove',['tag'=>$tag]) }}" class="btn default btn-xs red-stripe" id="remove-user"><i class="fa fa-trash"></i> </a>
+                                        <a href="{{ route('blog-tag-edit',['tag'=>$tag]) }}" class="btn default btn-xs green-stripe"><i class="fa fa-pencil"></i> </a>
+                                        <a href="{{ route('blog-tag-item',['tag'=>$tag]) }}" class="btn default btn-xs blue-stripe"><i class="fa fa-angle-right"></i> </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -448,7 +419,7 @@
                     </div>
                     <div class="actions">
                         <a href="#newCategory" data-toggle="modal" role="button" class="btn btn-circle btn-default" id="new-user-btn">
-                            <i class="fa fa-tag"></i> New Category </a>
+                            <i class="fa fa-tag"></i> New Category</a>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -462,15 +433,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach(\App\Category::all() as $category)
-
+                            @foreach($categories as $category)
                                 <tr class="user-item">
                                     <td>{{ $category['name'] }}</td>
                                     <td>{{ $category['slug'] }}</td>
                                     <td>
-                                        <button type="button" data-url="{{ Request::url() }}" data-user-id="{{ $post['id'] }}" class="btn default btn-xs red-stripe" id="remove-user"><i class="fa fa-trash"></i> </button>
-                                        <a href="#" class="btn default btn-xs green-stripe"><i class="fa fa-pencil"></i> </a>
-                                        <a href="" class="btn default btn-xs blue-stripe"><i class="fa fa-angle-right"></i> </a>
+                                        <a href="{{ route('blog-category-remove',['category'=>$category]) }}" class="btn default btn-xs red-stripe" id="remove-user"><i class="fa fa-trash"></i> </a>
+                                        <a href="{{ route('blog-category-edit',['category'=>$category]) }}" class="btn default btn-xs green-stripe"><i class="fa fa-pencil"></i> </a>
+                                        <a href="{{ route('blog-category-item',['category'=>$category]) }}" class="btn default btn-xs blue-stripe"><i class="fa fa-angle-right"></i> </a>
                                     </td>
                                 </tr>
                             @endforeach

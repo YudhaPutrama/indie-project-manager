@@ -119,8 +119,9 @@ class UserController extends Controller
 
     public function listUsers(){
         $this->authorize('create', User::class);
-        $users = User::all();
-        return view('user-list',['users'=>$users]);
+        $users = User::with('projects')->get();
+        $trashed = User::onlyTrashed()->get();
+        return view('user-list',['users'=>$users,'trashed'=>$trashed]);
 
     }
 
@@ -167,6 +168,43 @@ class UserController extends Controller
             return Response::json(['status'=>'success']);
         }
         return Response::json(['status'=>'error']);
+    }
+
+    public function restore($removedUser){
+
+        if (Auth::user()->isAdmin())
+            if (User::withTrashed()
+                ->where('id', $removedUser)
+                ->restore()){
+                return redirect()->back()->with('message','Success Restore');
+            }
+        return redirect()->back()->with('message','Error restore');
+    }
+
+    public function removeForce($removedUser){
+        if (Auth::user()->isAdmin())
+            if (User::withTrashed()
+                ->where('id', $removedUser)
+                ->forceDelete()){
+                return redirect()->back()->with('message','Success Force Remove');
+            }
+        return redirect()->back()->with('message','Error Remove');
+    }
+
+    public function deleteAll(){
+        if (Auth::user()->isAdmin()){
+            if(User::onlyTrashed()->forceDetele())
+                return redirect()->back()->with('message','Success Force Delete All');
+        }
+        return redirect()->back();
+    }
+
+    public function restoreAll(){
+        if (Auth::user()->isAdmin()){
+            if(User::onlyTrashed()->restore())
+                return redirect()->back()->with('message','Success Restore All');
+        }
+        return redirect()->back();
     }
 
     public function checkUsername(Request $request){

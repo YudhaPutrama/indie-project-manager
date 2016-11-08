@@ -92,7 +92,8 @@
                 $.post(url, function (data) {
                     if (data.status=='success'){
                         toastr['success']("User Removed", "User Remove");
-                        $(this).closest('.user-item').remove();
+//                        $(this).closest('.user-item').remove();
+                        window.location.reload();
                     } else {
                         toastr['error']("Something error", "User Remove")
                     }
@@ -286,6 +287,78 @@
                     </div>
                 </div>
             </div>
+
+                <div class="portlet light">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-trash"></i>Deleted User
+                        </div>
+                        <div class="actions">
+                            <a href="{{ route('user-delete-all') }}" role="button" class="btn btn-circle btn-default">
+                                <i class="fa fa-trash"></i> Delete All </a>
+                            <a href="{{ route('user-restore-all') }}" role="button" class="btn btn-circle btn-default">
+                                <i class="fa fa-user"></i> Restore All </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-striped table-bordered table-advance table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <i class="fa fa-user"></i> Username
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-user"></i> Name
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <i class="fa fa-building"></i> Organization
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-bookmark"></i> Project
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-bookmark"></i> Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($trashed as $user)
+
+                                    <tr class="user-item">
+                                        <td>
+                                            {{ $user['username'] }}
+                                        </td>
+                                        <td>
+                                            {{ $user['fullname'] }}
+                                        </td>
+                                        <td class="hidden-xs">
+                                            {{ $user['institution'] }}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-vertical">
+                                                @foreach($user['projects'] as $project)
+                                                    <a href="{{ route('project-detail',['project'=>$project]) }}" class="btn default btn-sm">
+                                                        <i class="fa fa-briefcase icon-black"></i> {{ $project['name'] }} </a>
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @can('update', $user)
+                                                @if($user['id']!=Auth::user()->id)
+                                                    <a href="{{ route('user-restore',['user'=>$user]) }}" data-toggle="confirmation" data-original-title="Are you sure?" class="btn default btn-xs red-stripe" id="remove-user">Restore User </a>
+                                                @endif
+                                                {{--<a href="#" class="btn default btn-xs green-stripe">Edit User </a>--}}
+                                                <a href="{{ route('user-remove-force',['user'=>$user]) }}" data-toggle="confirmation" data-original-title="Are you sure?" class="btn default btn-xs green-stripe">Force Delete </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 

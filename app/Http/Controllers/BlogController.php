@@ -7,6 +7,7 @@ use App\Post;
 use App\Tag;
 use Auth;
 use Config;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -111,12 +112,41 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
-    public function editCategory(){
-
+    public function editCategory(Category $category, Request $request){
+        $data = $request->all();
+        if ($data['slug']!=$category['slug']){
+            $rule = [
+                'name' => 'required',
+                'slug' => 'required|unique:categories,slug'
+            ];
+        } else {
+            $rule = [
+                'name' => 'required',
+                'slug' => 'required'
+            ];
+        }
+        $validator = Validator::make($data,$rule);
+        if ($validator->fails())
+            return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
+        $category->name = $data['name'];
+        $category->slug = $data['slug'];
+        if($category->save())
+            return Response::json(['status'=>'success','category'=>$category]);
+        return Response::json(['status'=>'error']);
     }
 
-    public function deleteCategory(){
+    public function deleteCategory(Category $category){
+        try{
+            $this->authorize('delete', $category);
+        }catch (AuthorizationException $authorizationExceptionex){
+            //return Response::json(['status'=>'error','detail'=>'unauthorize']);
+            return redirect()->back()->with('message','Unathorized');
+        }
 
+        if ($category->delete()){
+            return redirect()->back()->with('message','Success Delete');
+        }
+        return redirect()->back()->with('message','Error');
     }
 
     private function newTag($data){
@@ -134,8 +164,43 @@ class BlogController extends Controller
         return Response::json(['status'=>'error']);
     }
 
-    public function editTag(){}
-    public function deleteTag(){}
+    public function editTag(Tag $tag, Request $request){
+        $data = $request->all();
+        if ($data['slug']!=$tag['slug']){
+            $rule = [
+                'name' => 'required',
+                'slug' => 'required|unique:tags,slug'
+            ];
+        } else {
+            $rule = [
+                'name' => 'required',
+                'slug' => 'required'
+            ];
+        }
+        $validator = Validator::make($data,$rule);
+        if ($validator->fails())
+            return Response::json(['status'=>'error','detail'=>$validator->errors()->first()]);
+        $tag->slug = $data['slug'];
+        $tag->name = $data['name'];
+        if($tag->save())
+            return Response::json(['status'=>'success','tag'=>$tag]);
+        return Response::json(['status'=>'error']);
+    }
+    public function deleteTag(Tag $tag){
+        try{
+            $this->authorize('delete', $tag);
+        }catch (AuthorizationException $authorizationExceptionex){
+            return redirect()->back()->with('message','Unathorized');
+            //return Response::json(['status'=>'error','detail'=>'unauthorize']);
+        }
+
+        if ($tag->delete()){
+            return redirect()->back()->with('message','Success Delete');
+            //return Response::json(['status'=>'success']);
+        }
+        return redirect()->back()->with('message','Error');
+        //return Response::json(['status'=>'error']);
+    }
 
     public function showTag(Tag $tag){
         return view('blog-list', ['posts'=>$tag->posts()->paginate(8)]);
@@ -158,8 +223,10 @@ class BlogController extends Controller
     }
 
     public function managePosts(){
-        $posts = Post::all();
-        return view('blog-manage',['posts'=>$posts]);
+        $tags  = Tag::all();
+        $categories = Category::all();
+        $posts = Post::with(['category','tags','user'])->get();
+        return view('blog-manage',['posts'=>$posts,'tags'=>$tags,'categories'=>$categories]);
     }
 
     public function listTags(){
@@ -234,7 +301,7 @@ class BlogController extends Controller
     {
         $this->authorize('delete', $post);
         if ($post->delete())
-            return redirect()->route('blogs');
+            return redirect()->back()->with('message','Success');
         return redirect()->back()->with('message','Error delete post');
     }
 }

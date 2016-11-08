@@ -61,9 +61,14 @@ Route::group(['middleware'=>['auth']], function (){
     Route::get('/schedule', 'ScheduleController@listSchedule');
     Route::get('/users', 'UserController@listUsers')->name('users');
     Route::post('/users','UserController@newUser');
+    Route::get('/users/deleteAll','UserController@deleteAll')->name('user-delete-all');
+    Route::get('/users/restoreAll','UserController@restoreAll')->name('user-restore-all');
     Route::get('/users/{user}/','UserController@viewUser')->name('view-user');
     Route::post('/users/{user}/remove','UserController@removeUser');
-    Route::post('/users/{user}/resetPassword','UserController@resetPassword');
+    Route::get('/users/{user}/forceRemove','UserController@removeForce')->name('user-remove-force');
+    Route::get('/users/{removedUser}/restore','UserController@restore')->name('user-restore');
+    Route::post('/users/{removedUser}/resetPassword','UserController@resetPassword');
+
     Route::post('/users/check', 'UserController@checkUsername')->name('checkUsername');
 
     Route::get('/blog','BlogController@index')->name('blogs');
@@ -79,6 +84,6 @@ Route::group(['middleware'=>['auth']], function (){
 
     Route::post('blog/manage','BlogController@store')->name('newPost');
     Route::get('/blog/{post}','BlogController@show')->name('blog-view');
-    Route::post('/blog/{post}','BlogController@update');
-    Route::get('/blog/{post}/remove','BlogController@destroy')->name('removePost');
+    Route::post('/blog/{post}','BlogController@update')->name('update-post');
+    Route::get('/blog/{post}/remove','BlogController@destroy')->name('remove-post');
 });

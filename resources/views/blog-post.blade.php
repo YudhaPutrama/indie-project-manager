@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-fileinput/bootstrap-fileinput.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-datepicker/css/datepicker.css"/>
-    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2-bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.css" />
 @endsection
 
 @section('js-depends')
@@ -40,6 +40,7 @@
             Index.initMiniCharts();
             FormValidation.init();
 
+            $('.select2').select2();
             $("#bs_confirmation_demo_1").on("confirmed.bs.confirmation", function() {
                 alert("You confirmed action #1")
             }),
@@ -169,26 +170,32 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="multi-append" class="control-label">Tag</label>
-                                    <div class="input-group select2-bootstrap-append">
-                                        <select id="multi-append" class="form-control select2" multiple>
-                                            <option></option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="C">C</option>
-                                        </select>
-                                        <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" data-select2-open="multi-append">
-                                                    <span class="glyphicon glyphicon-search"></span>
-                                                </button>
-                                            </span>
+                                    <label class="control-label col-md-3">Tags</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group select2-bootstrap-append">
+                                            <select id="multi-append" class="form-control select2" multiple>
+                                                @foreach(\App\Tag::all() as $tag)
+                                                    <option value="{{ $tag['slug'] }}">{{ $tag['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="single" class="control-label">Category</label>
-                                    <select id="single" class="form-control select2">
-                                        <option></option>
-                                    </select>
+                                    <label class="control-label col-md-3">Category</label>
+                                    <div class="col-md-8">
+                                        <select id="single" class="form-control select2">
+                                            @foreach(\App\Category::all() as $category)
+                                                <option value="{{ $category['slug'] }}">{{ $category['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -225,7 +232,7 @@
                     <a href="#editPost" class="btn green" data-toggle="modal">
                         Edit <i class="icon-pencil"></i>
                     </a>
-                    <a href="{{ route('removePost',['post'=>$post]) }}" class="btn red" id="delete">
+                    <a href="{{ route('remove-post',['post'=>$post]) }}" class="btn red" id="delete">
                         Remove <i class="icon-trash"></i>
                     </a>
                 </div>

@@ -28,6 +28,7 @@
                     success: function (data) {
                         if (data.status=='success'){
                             toastr['success']("Avatar upload success", "Avatar Upload");
+                            window.location.reload();
                         } else {
                             toastr['error']("Something error", "Avatar Upload")
                         }
@@ -158,18 +159,20 @@
                 <div class="margin-top-20">
                     <h4 class="profile-desc-title">About</h4>
                     <span class="profile-desc-text">{{ $user['bio'] }}</span>
+
                     <div class="margin-top-20 profile-desc-link">
                         <i class="fa fa-phone"></i>
                         <a>{{ $user['phone'] }}</a>
                     </div>
-                    <div class="margin-top-20 profile-desc-link">
-                        <i class="fa fa-twitter"></i>
-                        <a href="{{ $user['twitter'] }}">Twitter</a>
-                    </div>
-                    <div class="margin-top-20 profile-desc-link">
-                        <i class="fa fa-facebook"></i>
-                        <a href="{{ $user['facebook'] }}">Facebook</a>
-                    </div>
+
+                    {{--<div class="margin-top-20 profile-desc-link">--}}
+                        {{--<i class="fa fa-twitter"></i>--}}
+                        {{--<a href="{{ $user['twitter'] }}">Twitter</a>--}}
+                    {{--</div>--}}
+                    {{--<div class="margin-top-20 profile-desc-link">--}}
+                        {{--<i class="fa fa-facebook"></i>--}}
+                        {{--<a href="{{ $user['facebook'] }}">Facebook</a>--}}
+                    {{--</div>--}}
                 </div>
             </div>
             <!-- END PORTLET MAIN -->
@@ -248,7 +251,7 @@
                                         <div class="form-group">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                                    <img src="{{ ($user['avatar']==null)?"/img/profile/default.jpg":Config::get('image.dir.avatar').$user['avatar'] }}" alt=""/>
+                                                    <img src="{{ Config::get('image.dir.avatar').(($user['avatar']==null)?"default.jpg":$user['avatar']) }}" alt=""/>
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
                                                 </div>
