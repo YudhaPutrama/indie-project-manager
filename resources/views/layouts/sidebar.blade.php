@@ -34,12 +34,19 @@
                 {{--<span class="title">Gallery</span>--}}
             {{--</a>--}}
         {{--</li>--}}
+        @if(Auth::user()->isAdmin())
+        <li class="heading">
+            <h3 class="uppercase">Admin</h3>
+        </li>
+        @endif
+        @if(Auth::user()->isAdmin()||Auth::user()->isStaff())
         <li class="{{ Route::is('blogs')?'active open':'' }}">
             <a href="{{ url('/blog') }}">
                 <i class="icon-speech"></i>
                 <span class="title">Blog</span>
             </a>
         </li>
+        @endif
         @if(Auth::user()->isAdmin())
             <li class="{{ Route::is('users')?'active open':'' }}">
                 <a href="{{ url('/users') }}">
@@ -48,7 +55,14 @@
                 </a>
             </li>
         @endif
-
+        @if(Auth::user()->isAdmin())
+            <li class="{{ Route::is('users')?'active open':'' }}">
+                <a href="{{ url('/users') }}">
+                    <i class="icon-users"></i>
+                    <span class="title">Users</span>
+                </a>
+            </li>
+        @endif
         {{--@foreach(Auth::user()->favorite_projects as $project)--}}
             {{--@if($loop->first)--}}
                 {{--<li class="heading">--}}
