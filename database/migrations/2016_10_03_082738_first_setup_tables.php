@@ -152,6 +152,28 @@ class FirstSetupTables extends Migration
             $table->string('tag_slug');
             $table->timestamps();
         });
+
+        Schema::create('sliders', function (Blueprint $table){
+            $table->increments('id');
+            $table->string('title');
+            $table->string('subtitle');
+            $table->string('desc');
+            $table->string('image');
+            $table->timestamps();
+        });
+
+        Schema::create('testimonials', function (Blueprint $table){
+            $table->increments('id');
+            $table->string('title');
+            $table->string('subtitle');
+            $table->string('desc');
+            $table->string('image');
+            $table->timestamps();
+        });
+
+//        Schema::create('messages', function (Blueprint $table){
+//
+//        });
     }
 
     /**
@@ -175,5 +197,9 @@ class FirstSetupTables extends Migration
         Schema::drop('tags');
         Schema::drop('categories');
         Schema::drop('post_tags');
+        Schema::drop('sliders');
+        Schema::drop('testimonials');
+
+
     }
 }

@@ -49,9 +49,9 @@ class ScheduleUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user'=>$this->user,
-            'schedule'=>$this->schedule,
-            'action'=>$this->action
+            'user_id'=>$this->user,
+            'project_id'=>$this->schedule,
+            'action'=>$this->action,
         ];
     }
 }

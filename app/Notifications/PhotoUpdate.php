@@ -52,8 +52,8 @@ class PhotoUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user'=>$this->user,
-            'photo'=>$this->photo,
+            'user_id'=>$this->user,
+            'photo_id'=>$this->photo,
             'action'=>$this->action
         ];
     }
